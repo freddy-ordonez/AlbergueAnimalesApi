@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Services.Contracts;
 
 namespace AlbergueAnimalesRescatadosApi.Controllers
 {
@@ -6,28 +7,22 @@ namespace AlbergueAnimalesRescatadosApi.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILoggerManager _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILoggerManager logger)
         {
             _logger = logger;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public string Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            _logger.LogInfo("Log Info");
+            _logger.LogWarn("Log Warn");
+            _logger.LogDebug("Log Debug");
+            _logger.LogError("Log Error");
+            return "Hola mundo";
         }
     }
 }
