@@ -16,7 +16,7 @@ namespace AlbergueAnimalesRescatadosApi.ContexFactory
 
             var builder = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseSqlServer(config.GetConnectionString("sqlConnection"),
-                    b => b.MigrationsAssembly("Persintence"));
+                    b => b.MigrationsAssembly("AlbergueAnimalesRescatadosApi"));
 
             return new RepositoryContext(builder.Options);
         }
