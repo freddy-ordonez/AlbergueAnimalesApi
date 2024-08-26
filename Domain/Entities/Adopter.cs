@@ -21,7 +21,7 @@ namespace Domain.Entities
         public string? LastName { get; set; }
 
         [Required(ErrorMessage = "Adopter email is required")]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "Adopter state is required")]

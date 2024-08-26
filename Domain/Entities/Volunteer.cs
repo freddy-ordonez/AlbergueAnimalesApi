@@ -21,7 +21,7 @@ namespace Domain.Entities
         public string? LastName { get; set; }
 
         [Required(ErrorMessage = "Volunter email is required")]
-        [MaxLength(20)]
+        [MaxLength(100)]
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "Volunteer state is required")]
