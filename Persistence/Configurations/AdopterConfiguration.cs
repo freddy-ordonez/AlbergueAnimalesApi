@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums.Adopter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -13,6 +14,9 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Adopter> builder)
         {
+            builder.Property(a => a.State)
+                .HasConversion(a => a.ToString(), a => (State)Enum.Parse(typeof(State), a));
+
             builder.HasData(
                 new Adopter
                 {

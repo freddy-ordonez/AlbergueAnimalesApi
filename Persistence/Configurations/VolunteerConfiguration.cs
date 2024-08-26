@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums.Volunteer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,6 +9,9 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Volunteer> builder)
         {
+            builder.Property(v => v.State)
+                .HasConversion(v => v.ToString(), v => (State)Enum.Parse(typeof(State), v));
+
             builder.HasData(
                 new Volunteer
                 {

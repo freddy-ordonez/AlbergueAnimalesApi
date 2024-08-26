@@ -14,6 +14,12 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Animal> builder)
         {
+            builder.Property(a => a.Type)
+                .HasConversion(a => a.ToString(), a => (Domain.Enums.Animal.Type)Enum.Parse(typeof(Domain.Enums.Animal.Type), a));
+
+            builder.Property(a => a.State)
+                .HasConversion(a => a.ToString(), a => (State)Enum.Parse(typeof(State), a));
+
             builder.HasData(
                 new Animal 
                 {
