@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Configurations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,13 @@ namespace Persistence
             : base(options)
         {
             
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new AnimalConfiguration());
+            modelBuilder.ApplyConfiguration(new VolunteerConfiguration());
+            modelBuilder.ApplyConfiguration(new AdopterConfiguration());
         }
 
         public DbSet<Animal> Animals { get; set; }
