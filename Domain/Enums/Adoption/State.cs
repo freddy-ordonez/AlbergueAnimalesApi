@@ -8,7 +8,7 @@ namespace Domain.Enums.Adoption
 {
     public enum State
     {
-        ACTIVO,
-        INACTIVO
+        FINALIZADO,
+        EN_PROCESO
     }
 }

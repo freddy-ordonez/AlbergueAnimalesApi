@@ -15,7 +15,8 @@ namespace AlbergueAnimalesRescatadosApi.ContexFactory
                 .Build();
 
             var builder = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseSqlServer(config.GetConnectionString("sqlConnection"));
+                .UseSqlServer(config.GetConnectionString("sqlConnection"),
+                    b => b.MigrationsAssembly("Persintence"));
 
             return new RepositoryContext(builder.Options);
         }
