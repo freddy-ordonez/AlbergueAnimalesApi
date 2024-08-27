@@ -1,4 +1,7 @@
-﻿using LoggerService;
+﻿using Domain.Repositories;
+using LoggerService;
+using Persistence.Repositories;
+using Services;
 using Services.Contracts;
 
 namespace AlbergueAnimalesRescatadosApi.Extensions
@@ -24,6 +27,12 @@ namespace AlbergueAnimalesRescatadosApi.Extensions
 
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddScoped<ILoggerManager, LoggerManager>();
+
+        public static void ConfigureRepositoryManager(this IServiceCollection services) =>
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+        public static void ConfigureServiceManager(this IServiceCollection services) =>
+            services.AddScoped<IServiceManager, ServiceManager>();
 
 
     }
