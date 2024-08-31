@@ -14,5 +14,11 @@ namespace Persistence.Repositories
             : base(repositoryContext)
         {
         }
+
+        public IEnumerable<Animal> GetAll(bool trackChanges) =>
+            FindAll(trackChanges)
+            .OrderBy(a => a.Name)
+            .ToList();
+
     }
 }

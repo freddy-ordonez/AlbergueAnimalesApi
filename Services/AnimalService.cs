@@ -1,10 +1,6 @@
-﻿using Domain.Repositories;
+﻿using Domain.Entities;
+using Domain.Repositories;
 using Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -19,6 +15,18 @@ namespace Services
             _loggerManager = loggerManager;
         }
 
-
+        public IEnumerable<Animal> GetAllAnimals(bool trackChanges) 
+        {
+            try
+            {
+                var animals = _repository.Animal.GetAll(trackChanges);
+                return animals;
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"Something went wrong in the {nameof(GetAllAnimals)} service method {ex}");
+                throw;
+            }
+        }
     }
 }
