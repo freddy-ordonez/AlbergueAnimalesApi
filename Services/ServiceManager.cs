@@ -1,4 +1,5 @@
-﻿using Domain.Repositories;
+﻿using AutoMapper;
+using Domain.Repositories;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,9 @@ namespace Services
         private readonly Lazy<IAdopterService> _adopterService;
         private readonly Lazy<IAdoptionService> _adoptionService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager loggerManager)
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper)
         {
-            _animalService = new Lazy<IAnimalService>(() => new AnimalService(repositoryManager, loggerManager));
+            _animalService = new Lazy<IAnimalService>(() => new AnimalService(repositoryManager, loggerManager, mapper));
             _adopterService = new Lazy<IAdopterService>(() => new AdopterService(repositoryManager,loggerManager));
             _adoptionService = new Lazy<IAdoptionService>(() => new AdoptionService(repositoryManager, loggerManager));
             _volunteerService = new Lazy<IVolunteerService>(() => new VolunteerService(repositoryManager, loggerManager));

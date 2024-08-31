@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Shared.Dto
 {
-    public record AnimalDto(Guid Id, string Name, AnimalType AnimalType);
+    public record AnimalDto(Guid Id, string Name, AnimalType AnimalType, AnimalState AnimalState, DateTime DateTime);
 }

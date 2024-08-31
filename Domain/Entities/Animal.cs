@@ -19,6 +19,6 @@ namespace Domain.Entities
         [MaxLength(20)]
         public AnimalState? State { get; set; }
 
-        public DateTime? DateDelivery { get; set; }
+        public DateTime? DateDelivery { get; set; } = DateTime.MinValue;
     }
 }

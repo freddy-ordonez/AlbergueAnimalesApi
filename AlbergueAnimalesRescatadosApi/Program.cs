@@ -17,6 +17,7 @@ builder.Services.AddControllers()
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

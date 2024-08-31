@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Shared.Dto;
 
 namespace Services.Contracts
 {
     public interface IAnimalService
     {
-        IEnumerable<Animal> GetAllAnimals(bool trackChanges);
+        IEnumerable<AnimalDto> GetAllAnimals(bool trackChanges);
     }
 }
