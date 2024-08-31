@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Enums.Animal
 {
-    public enum State
+    public enum AnimalState
     {
         ADOPTADO,
         EN_ESPERA,

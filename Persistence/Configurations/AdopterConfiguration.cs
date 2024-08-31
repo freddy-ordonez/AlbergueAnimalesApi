@@ -15,7 +15,7 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<Adopter> builder)
         {
             builder.Property(a => a.State)
-                .HasConversion(a => a.ToString(), a => (State)Enum.Parse(typeof(State), a));
+                .HasConversion(a => a.ToString(), a => (AdopterState)Enum.Parse(typeof(AdopterState), a));
 
             builder.HasData(
                 new Adopter
@@ -24,7 +24,7 @@ namespace Persistence.Configurations
                     Name = "Freddy",
                     LastName = "Aguilar",
                     Email = "freddy@outlook.com",
-                    State = Domain.Enums.Adopter.State.ACTIVO
+                    State = Domain.Enums.Adopter.AdopterState.ACTIVO
                 },
                 new Adopter
                 {
@@ -32,7 +32,7 @@ namespace Persistence.Configurations
                     Name = "Carlos",
                     LastName = "Mendoza",
                     Email = "carlos.mendoza@example.com",
-                    State = Domain.Enums.Adopter.State.INACTIVO,
+                    State = Domain.Enums.Adopter.AdopterState.INACTIVO,
                 },
                 new Adopter
                 {
@@ -40,7 +40,7 @@ namespace Persistence.Configurations
                     Name = "Sofia",
                     LastName = "Pérez",
                     Email = "sofia.perez@example.com",
-                    State = Domain.Enums.Adopter.State.ACTIVO,
+                    State = Domain.Enums.Adopter.AdopterState.ACTIVO,
                 },
                 new Adopter
                 {
@@ -48,7 +48,7 @@ namespace Persistence.Configurations
                     Name = "Luis",
                     LastName = "Hernández",
                     Email = "luis.hernandez@example.com",
-                    State = Domain.Enums.Adopter.State.INACTIVO,
+                    State = Domain.Enums.Adopter.AdopterState.INACTIVO,
                 },
                 new Adopter
                 {
@@ -56,7 +56,7 @@ namespace Persistence.Configurations
                     Name = "María",
                     LastName = "García",
                     Email = "maria.garcia@example.com",
-                    State = Domain.Enums.Adopter.State.ACTIVO,
+                    State = Domain.Enums.Adopter.AdopterState.ACTIVO,
                 }
             );
         }

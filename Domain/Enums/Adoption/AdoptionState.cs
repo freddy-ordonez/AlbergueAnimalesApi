@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Enums.Animal
+namespace Domain.Enums.Adoption
 {
-    public enum Type
+    public enum AdoptionState
     {
-        Perro,
-        Gato
+        FINALIZADO,
+        EN_PROCESO
     }
 }

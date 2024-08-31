@@ -26,6 +26,6 @@ namespace Domain.Entities
 
         [Required(ErrorMessage = "Adopter state is required")]
         [MaxLength(20)]
-        public State State { get; set; }
+        public AdopterState State { get; set; }
     }
 }

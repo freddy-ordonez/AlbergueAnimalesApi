@@ -1,10 +1,5 @@
 ﻿using Domain.Enums.Animal;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
@@ -18,11 +13,11 @@ namespace Domain.Entities
 
         [Required(ErrorMessage = "Animal type is required")]
         [MaxLength(20)]
-        public Enums.Animal.Type? Type { get; set; }
+        public AnimalType? Type { get; set; }
 
         [Required(ErrorMessage = "Animal state is required")]
         [MaxLength(20)]
-        public State? State { get; set; }
+        public AnimalState? State { get; set; }
 
         public DateTime? DateDelivery { get; set; }
     }

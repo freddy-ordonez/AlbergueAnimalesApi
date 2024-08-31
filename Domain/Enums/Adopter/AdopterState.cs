@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Domain.Enums.Adopter
 {
 
-    public enum State
+    public enum AdopterState
     {
         ACTIVO,
         INACTIVO
