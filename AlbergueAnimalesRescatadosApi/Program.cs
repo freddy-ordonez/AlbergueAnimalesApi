@@ -1,15 +1,19 @@
+using System.Text.Json.Serialization;
 using AlbergueAnimalesRescatadosApi.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
-using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
-
 builder.Services.ConfigureRepositoryManager();
-builder.Services.AddControllers();
+builder.Services.ConfigureServiceManager();
+builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.AddControllers()
+.AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
+.AddJsonOptions(options => {
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
