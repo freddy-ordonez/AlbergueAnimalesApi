@@ -13,5 +13,9 @@ namespace Persistence.Repositories
         public AdopterRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<Adopter> GetAdopters(bool trackChanges) =>
+            FindAll(trackChanges)
+            .ToList();
     }
 }
