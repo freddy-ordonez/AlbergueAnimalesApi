@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AlbergueAnimalesRescatadosApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+72efc7696fc54ca96311207e1938d64b40ba01a2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+302eb9ba9f6db87cee8f1f9754f6603d518851bc")]
 [assembly: System.Reflection.AssemblyProductAttribute("AlbergueAnimalesRescatadosApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AlbergueAnimalesRescatadosApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

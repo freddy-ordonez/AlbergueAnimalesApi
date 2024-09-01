@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Shared.Dto;
 using Shared.Dto.Adopter;
+using Shared.Dto.Animal;
 using Shared.Dto.Volunteer;
 
 namespace AlbergueAnimalesRescatadosApi
@@ -11,7 +12,10 @@ namespace AlbergueAnimalesRescatadosApi
         public MappingProfile()
         {
             CreateMap<Animal, AnimalDto>();
+            CreateMap<AnimalForCreationDto, Animal>();
+
             CreateMap<Adopter, AdopterDto>();
+            
             CreateMap<Volunteer, VolunteerDto>();
         }
     }

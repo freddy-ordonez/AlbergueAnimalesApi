@@ -15,6 +15,8 @@ namespace Persistence.Repositories
         {
         }
 
+        public void CreateAnimal(Animal animal) => Create(animal);
+
         public IEnumerable<Animal> GetAll(bool trackChanges) =>
             FindAll(trackChanges)
             .OrderBy(a => a.Name)

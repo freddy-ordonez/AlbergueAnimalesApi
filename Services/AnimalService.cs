@@ -4,6 +4,7 @@ using Domain.Entities.Exceptions;
 using Domain.Repositories;
 using Services.Contracts;
 using Shared.Dto;
+using Shared.Dto.Animal;
 
 namespace Services
 {
@@ -18,6 +19,18 @@ namespace Services
             _repository = repositoryManager;
             _loggerManager = loggerManager;
             _mapper = mapper;
+        }
+
+        public AnimalDto CreateAnimal(AnimalForCreationDto animalDto)
+        {
+            var animalEntity = _mapper.Map<Animal>(animalDto);
+
+            _repository.Animal.CreateAnimal(animalEntity);
+            _repository.Save();
+
+            var animalReturnDto = _mapper.Map<AnimalDto>(animalEntity);
+
+            return animalReturnDto;
         }
 
         public IEnumerable<AnimalDto> GetAllAnimals(bool trackChanges)

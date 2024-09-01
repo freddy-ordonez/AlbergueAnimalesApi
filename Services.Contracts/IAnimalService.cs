@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Shared.Dto;
+using Shared.Dto.Animal;
 
 namespace Services.Contracts
 {
@@ -12,5 +13,6 @@ namespace Services.Contracts
     {
         IEnumerable<AnimalDto> GetAllAnimals(bool trackChanges);
         AnimalDto GetAnimal(Guid animalId, bool trackChanges);
+        AnimalDto CreateAnimal(AnimalForCreationDto animalDto);
     }
 }

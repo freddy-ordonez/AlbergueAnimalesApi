@@ -12,5 +12,7 @@ namespace Domain.Repositories
         IAdopterRepository Adopter { get; }
         IVolunteerRepository Volunteer { get; }
         IAdoptionRepository Adoption { get; }
+
+        void Save();
     }
 }

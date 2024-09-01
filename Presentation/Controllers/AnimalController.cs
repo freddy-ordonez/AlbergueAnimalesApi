@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
+using Shared.Dto;
+using Shared.Dto.Animal;
 
 namespace Presentation.Controllers
 {
@@ -21,11 +23,22 @@ namespace Presentation.Controllers
             return Ok(animals);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name = "AnimalById")]
         public IActionResult GetAnimal(Guid id)
         {
             var client = _service.AnimalService.GetAnimal(id, trackChanges: false);
             return Ok(client);
+        }
+
+        [HttpPost]
+        public IActionResult CreateAnimal([FromBody] AnimalForCreationDto animal)
+        {
+            if(animal is null)
+                return BadRequest("The AnimalDto object is null ");
+            
+            var animalCreate = _service.AnimalService.CreateAnimal(animal);
+
+            return CreatedAtRoute("AnimalById", new {id = animalCreate.Id}, animalCreate);
         }
     }
 }

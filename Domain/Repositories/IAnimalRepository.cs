@@ -11,5 +11,6 @@ namespace Domain.Repositories
     {
         IEnumerable<Animal> GetAll(bool trackChanges);
         Animal GetAnimal(Guid animalId, bool trackChanges);
+        void CreateAnimal(Animal animal);
     }
 }
