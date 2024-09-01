@@ -8,12 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureSqlContext(builder.Configuration);
-builder.Services.AddControllers()
+builder.Services.AddControllers(config => {
+    config.RespectBrowserAcceptHeader = true;
+    config.ReturnHttpNotAcceptable = true;
+})
+.AddXmlDataContractSerializerFormatters()
 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
 .AddJsonOptions(options => {
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
