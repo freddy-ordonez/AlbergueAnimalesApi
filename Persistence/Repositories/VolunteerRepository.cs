@@ -13,5 +13,9 @@ namespace Persistence.Repositories
         public VolunteerRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<Volunteer> FindVoluteers(bool trackChanges) => 
+            FindAll(trackChanges)
+            .ToList();
     }
 }

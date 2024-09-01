@@ -4,6 +4,7 @@ using Services.Contracts;
 namespace Presentation.Controllers
 {
     [Route("api/adopters")]
+    [ApiController]
     public class AdopterController : ControllerBase
     {
         private readonly IServiceManager _service;

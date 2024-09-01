@@ -1,4 +1,5 @@
-﻿using Domain.Repositories;
+﻿using Domain.Entities;
+using Domain.Repositories;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,11 @@ namespace Services
             _loggerManager = loggerManager;
         }
 
+        public IEnumerable<Volunteer> GetVolunteers(bool trackChanges)
+        {
+            var volunteers = _repository.Volunteer.FindVoluteers(trackChanges);
+
+            return volunteers;
+        }
     }
 }
