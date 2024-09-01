@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.Exceptions;
 using Domain.Repositories;
 using Services.Contracts;
 using System;
@@ -18,6 +19,15 @@ namespace Services
         {
             _repository = repositoryManager;
             _loggerManager = loggerManager;
+        }
+
+        public Adopter GetAdopter(Guid adopterId, bool trackChanges)
+        {
+            var adopter = _repository.Adopter.GetAdopter(adopterId, trackChanges);
+            if(adopter is null)
+                throw new AdopterNotFountException(adopterId);
+                
+            return adopter;
         }
 
         public IEnumerable<Adopter> GetAdopters(bool trackChanges)

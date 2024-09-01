@@ -10,5 +10,6 @@ namespace Domain.Repositories
     public interface IAdopterRepository
     {
         IEnumerable<Adopter> GetAdopters(bool trackChanges);
+        Adopter GetAdopter(Guid adopterId, bool trackChanges);
     }
 }

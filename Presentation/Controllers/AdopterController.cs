@@ -21,8 +21,16 @@ namespace Presentation.Controllers
         public IActionResult GetAdopters()
         {
             var adopters = _service.AdopterService.GetAdopters(trackChanges: false);
-            
+
             return Ok(adopters);
+        }
+
+        [HttpGet("{id:guid}")]
+        public IActionResult GetAdopter(Guid id)
+        {
+            var adopter = _service.AdopterService.GetAdopter(id, trackChanges: false);
+
+            return Ok(adopter);
         }
 
     }

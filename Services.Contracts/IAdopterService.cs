@@ -10,5 +10,6 @@ namespace Services.Contracts
     public interface IAdopterService
     {
         IEnumerable<Adopter> GetAdopters(bool trackChanges);
+        Adopter GetAdopter(Guid adopterId, bool trackChanges);
     }
 }
