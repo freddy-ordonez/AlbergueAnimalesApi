@@ -14,6 +14,10 @@ namespace Persistence.Repositories
         {
         }
 
+        public Volunteer FindVolunteer(Guid volunteerId, bool trackChanges) => 
+            FinByCondition(v => v.Id.Equals(volunteerId), trackChanges)
+            .SingleOrDefault();
+
         public IEnumerable<Volunteer> FindVoluteers(bool trackChanges) => 
             FindAll(trackChanges)
             .ToList();

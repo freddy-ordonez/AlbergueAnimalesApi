@@ -25,5 +25,13 @@ namespace Presentation.Controllers
 
             return Ok(volunteers);
         }
+
+        [HttpGet("{id:guid}")]
+        public IActionResult GetVolunteer(Guid id)
+        {
+            var volunter = _service.VolunteerService.GetVolunteer(id, trackChanges: false);
+
+            return Ok(volunter);
+        }
     }
 }

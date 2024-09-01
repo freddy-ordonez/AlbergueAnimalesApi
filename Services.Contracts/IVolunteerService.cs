@@ -10,5 +10,6 @@ namespace Services.Contracts
     public interface IVolunteerService
     {
         IEnumerable<Volunteer> GetVolunteers(bool trackChanges);
+        Volunteer GetVolunteer(Guid volunterId, bool trackChanges);
     }
 }
