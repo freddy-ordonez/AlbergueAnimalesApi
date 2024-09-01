@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.Exceptions;
 using Domain.Repositories;
 using Services.Contracts;
 using Shared.Dto;
@@ -19,20 +20,25 @@ namespace Services
             _mapper = mapper;
         }
 
-        public IEnumerable<AnimalDto> GetAllAnimals(bool trackChanges) 
+        public IEnumerable<AnimalDto> GetAllAnimals(bool trackChanges)
         {
-            try
-            {
-                var animals = _repository.Animal.GetAll(trackChanges);
 
-                var animalsDto = animals.Select(a => new AnimalDto(a.Id, a.Name, a.Type.Value, a.State.Value, a.DateDelivery.Value));
-                return animalsDto;
-            }
-            catch (Exception ex)
-            {
-                _loggerManager.LogError($"Something went wrong in the {nameof(GetAllAnimals)} service method {ex}");
-                throw;
-            }
+            var animals = _repository.Animal.GetAll(trackChanges);
+
+            var animalsDto = _mapper.Map<IEnumerable<AnimalDto>>(animals);
+
+            return animalsDto;
+        }
+
+        public AnimalDto GetAnimal(Guid animalId, bool trackChanges)
+        {
+            var animal = _repository.Animal.GetAnimal(animalId, trackChanges);
+            if (animal is null)
+                throw new AnimalNotFoundException(animalId);
+
+            var animalDto = _mapper.Map<AnimalDto>(animal);
+
+            return animalDto;
         }
     }
 }

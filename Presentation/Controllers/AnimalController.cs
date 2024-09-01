@@ -17,15 +17,15 @@ namespace Presentation.Controllers
         [HttpGet]
         public IActionResult GetAnimals()
         {
-            try
-            {
-                var animals = _service.AnimalService.GetAllAnimals(trackChanges: false);
-                return Ok(animals);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal Server Error");
-            }
+            var animals = _service.AnimalService.GetAllAnimals(trackChanges: false);
+            return Ok(animals);
+        }
+
+        [HttpGet("{id:guid}")]
+        public IActionResult GetAnimal(Guid id)
+        {
+            var client = _service.AnimalService.GetAnimal(id, trackChanges: false);
+            return Ok(client);
         }
     }
 }

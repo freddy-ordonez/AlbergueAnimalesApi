@@ -20,5 +20,8 @@ namespace Persistence.Repositories
             .OrderBy(a => a.Name)
             .ToList();
 
+        public Animal GetAnimal(Guid animalId, bool trackChanges) => 
+            FinByCondition(a => a.Id.Equals(animalId), trackChanges)
+            .SingleOrDefault();
     }
 }

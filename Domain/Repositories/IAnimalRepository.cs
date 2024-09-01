@@ -10,5 +10,6 @@ namespace Domain.Repositories
     public interface IAnimalRepository
     {
         IEnumerable<Animal> GetAll(bool trackChanges);
+        Animal GetAnimal(Guid animalId, bool trackChanges);
     }
 }

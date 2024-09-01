@@ -5028,6 +5028,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Domain >= 1.0.0",
       "LoggerService >= 1.0.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.8",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.8",
@@ -5064,6 +5065,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+            "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Domain\\Domain.csproj"
+            },
             "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\LoggerService\\LoggerService.csproj": {
               "projectPath": "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\LoggerService\\LoggerService.csproj"
             },
