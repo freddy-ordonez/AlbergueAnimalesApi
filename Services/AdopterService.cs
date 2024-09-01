@@ -1,12 +1,9 @@
-﻿using Domain.Entities;
+﻿using AutoMapper;
+using Domain.Entities;
 using Domain.Entities.Exceptions;
 using Domain.Repositories;
 using Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.Dto.Adopter;
 
 namespace Services
 {
@@ -14,27 +11,33 @@ namespace Services
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _loggerManager;
+        private readonly IMapper _mapper;
 
-        public AdopterService(IRepositoryManager repositoryManager, ILoggerManager loggerManager)
+        public AdopterService(IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper)
         {
             _repository = repositoryManager;
             _loggerManager = loggerManager;
+            _mapper = mapper;
         }
 
-        public Adopter GetAdopter(Guid adopterId, bool trackChanges)
+        public AdopterDto GetAdopter(Guid adopterId, bool trackChanges)
         {
             var adopter = _repository.Adopter.GetAdopter(adopterId, trackChanges);
             if(adopter is null)
                 throw new AdopterNotFountException(adopterId);
+            
+            var AdopterDto = _mapper.Map<AdopterDto>(adopter);
                 
-            return adopter;
+            return AdopterDto;
         }
 
-        public IEnumerable<Adopter> GetAdopters(bool trackChanges)
+        public IEnumerable<AdopterDto> GetAdopters(bool trackChanges)
         {
            var adopters = _repository.Adopter.GetAdopters(trackChanges);
 
-           return adopters;
+           var adoptersDtos = _mapper.Map<IEnumerable<AdopterDto>>(adopters);
+
+           return adoptersDtos;
         }
     }
 }

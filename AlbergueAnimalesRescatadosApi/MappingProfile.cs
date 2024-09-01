@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Shared.Dto;
+using Shared.Dto.Adopter;
 
 namespace AlbergueAnimalesRescatadosApi
 {
@@ -9,6 +10,7 @@ namespace AlbergueAnimalesRescatadosApi
         public MappingProfile()
         {
             CreateMap<Animal, AnimalDto>();
+            CreateMap<Adopter, AdopterDto>();
         }
     }
 }

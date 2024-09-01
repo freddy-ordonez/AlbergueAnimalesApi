@@ -19,7 +19,7 @@ namespace Services
         public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper)
         {
             _animalService = new Lazy<IAnimalService>(() => new AnimalService(repositoryManager, loggerManager, mapper));
-            _adopterService = new Lazy<IAdopterService>(() => new AdopterService(repositoryManager,loggerManager));
+            _adopterService = new Lazy<IAdopterService>(() => new AdopterService(repositoryManager,loggerManager, mapper));
             _adoptionService = new Lazy<IAdoptionService>(() => new AdoptionService(repositoryManager, loggerManager));
             _volunteerService = new Lazy<IVolunteerService>(() => new VolunteerService(repositoryManager, loggerManager));
         }
