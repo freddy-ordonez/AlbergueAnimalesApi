@@ -10,7 +10,7 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<Volunteer> builder)
         {
             builder.Property(v => v.State)
-                .HasConversion(v => v.ToString(), v => (State)Enum.Parse(typeof(State), v));
+                .HasConversion(v => v.ToString(), v => (VolunteerState)Enum.Parse(typeof(VolunteerState), v));
 
             builder.HasData(
                 new Volunteer
@@ -19,7 +19,7 @@ namespace Persistence.Configurations
                     Name = "Juan",
                     LastName = "Hernandez",
                     Email = "juan.hernandez@example.com",
-                    State = Domain.Enums.Volunteer.State.ACTIVO
+                    State = VolunteerState.ACTIVO
                 },
                 new Volunteer
                 {
@@ -27,7 +27,7 @@ namespace Persistence.Configurations
                     Name = "Laura",
                     LastName = "Martínez",
                     Email = "laura.martinez@example.com",
-                    State = Domain.Enums.Volunteer.State.INACTIVO,
+                    State = VolunteerState.INACTIVO,
                 },
                 new Volunteer
                 {
@@ -35,7 +35,7 @@ namespace Persistence.Configurations
                     Name = "Ricardo",
                     LastName = "García",
                     Email = "ricardo.garcia@example.com",
-                    State = Domain.Enums.Volunteer.State.ACTIVO,
+                    State = VolunteerState.ACTIVO,
                 },
                 new Volunteer
                 {
@@ -43,7 +43,7 @@ namespace Persistence.Configurations
                     Name = "Elena",
                     LastName = "Lopez",
                     Email = "elena.lopez@example.com",
-                    State = Domain.Enums.Volunteer.State.ACTIVO,
+                    State = VolunteerState.ACTIVO,
                 },
                 new Volunteer
                 {
@@ -51,7 +51,7 @@ namespace Persistence.Configurations
                     Name = "Miguel",
                     LastName = "Ramírez",
                     Email = "miguel.ramirez@example.com",
-                    State = Domain.Enums.Volunteer.State.ACTIVO,
+                    State = VolunteerState.ACTIVO,
                 }
             );
         }

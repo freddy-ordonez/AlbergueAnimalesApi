@@ -1,7 +1,9 @@
-﻿using Domain.Entities;
+﻿using AutoMapper;
+using Domain.Entities;
 using Domain.Entities.Exceptions;
 using Domain.Repositories;
 using Services.Contracts;
+using Shared.Dto.Volunteer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,27 +16,33 @@ namespace Services
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _loggerManager;
+        private readonly IMapper _mapper;
 
-        public VolunteerService(IRepositoryManager repositoryManager, ILoggerManager loggerManager)
+        public VolunteerService(IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper)
         {
             _repository = repositoryManager;
             _loggerManager = loggerManager;
+            _mapper = mapper;
         }
 
-        public Volunteer GetVolunteer(Guid volunterId, bool trackChanges)
+        public VolunteerDto GetVolunteer(Guid volunterId, bool trackChanges)
         {
             var volunteer = _repository.Volunteer.FindVolunteer(volunterId, trackChanges);
             if(volunteer is null)
                 throw new VolunteerNotFoundException(volunterId);
 
-            return volunteer;
+            var volunteerDto = _mapper.Map<VolunteerDto>(volunteer);
+
+            return volunteerDto;
         }
 
-        public IEnumerable<Volunteer> GetVolunteers(bool trackChanges)
+        public IEnumerable<VolunteerDto> GetVolunteers(bool trackChanges)
         {
             var volunteers = _repository.Volunteer.FindVoluteers(trackChanges);
 
-            return volunteers;
+            var volunteersDto = _mapper.Map<IEnumerable<VolunteerDto>>(volunteers);
+
+            return volunteersDto;
         }
     }
 }

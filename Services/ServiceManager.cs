@@ -21,7 +21,7 @@ namespace Services
             _animalService = new Lazy<IAnimalService>(() => new AnimalService(repositoryManager, loggerManager, mapper));
             _adopterService = new Lazy<IAdopterService>(() => new AdopterService(repositoryManager,loggerManager, mapper));
             _adoptionService = new Lazy<IAdoptionService>(() => new AdoptionService(repositoryManager, loggerManager));
-            _volunteerService = new Lazy<IVolunteerService>(() => new VolunteerService(repositoryManager, loggerManager));
+            _volunteerService = new Lazy<IVolunteerService>(() => new VolunteerService(repositoryManager, loggerManager, mapper));
         }
 
         public IAnimalService AnimalService => _animalService.Value;

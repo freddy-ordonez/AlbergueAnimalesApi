@@ -26,6 +26,6 @@ namespace Domain.Entities
 
         [Required(ErrorMessage = "Volunteer state is required")]
         [MaxLength(20)]
-        public State State { get; set; }
+        public VolunteerState State { get; set; }
     }
 }

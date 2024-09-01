@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Shared.Dto.Volunteer;
 
 namespace Services.Contracts
 {
     public interface IVolunteerService
     {
-        IEnumerable<Volunteer> GetVolunteers(bool trackChanges);
-        Volunteer GetVolunteer(Guid volunterId, bool trackChanges);
+        IEnumerable<VolunteerDto> GetVolunteers(bool trackChanges);
+        VolunteerDto GetVolunteer(Guid volunterId, bool trackChanges);
     }
 }
