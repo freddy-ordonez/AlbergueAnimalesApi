@@ -20,6 +20,18 @@ namespace Services
             _mapper = mapper;
         }
 
+        public AdopterDto CreateAdopter(AdopterForCreationDto adopter)
+        {
+            var adopterEntity = _mapper.Map<Adopter>(adopter);
+
+            _repository.Adopter.CreateAdopter(adopterEntity);
+            _repository.Save();
+
+            var adopterDto = _mapper.Map<AdopterDto>(adopterEntity);
+
+            return adopterDto;
+        }
+        
         public AdopterDto GetAdopter(Guid adopterId, bool trackChanges)
         {
             var adopter = _repository.Adopter.GetAdopter(adopterId, trackChanges);

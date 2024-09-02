@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
+using Shared.Dto.Adopter;
 
 namespace Presentation.Controllers
 {
@@ -22,12 +23,23 @@ namespace Presentation.Controllers
             return Ok(adopters);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name = "AdopterById")]
         public IActionResult GetAdopter(Guid id)
         {
             var adopter = _service.AdopterService.GetAdopter(id, trackChanges: false);
 
             return Ok(adopter);
+        }
+
+        [HttpPost]
+        public IActionResult CreateAdopter([FromBody] AdopterForCreationDto adopter)
+        {
+            if(adopter is null)
+                return BadRequest("The adopter object is null");
+            
+            var adopterDto = _service.AdopterService.CreateAdopter(adopter);
+
+            return CreatedAtRoute("AdopterById", new {id = adopterDto.Id}, adopterDto);
         }
 
     }

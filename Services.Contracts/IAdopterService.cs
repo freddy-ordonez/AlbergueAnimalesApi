@@ -6,5 +6,6 @@ namespace Services.Contracts
     {
         IEnumerable<AdopterDto> GetAdopters(bool trackChanges);
         AdopterDto GetAdopter(Guid adopterId, bool trackChanges);
+        AdopterDto CreateAdopter(AdopterForCreationDto adopter);
     }
 }

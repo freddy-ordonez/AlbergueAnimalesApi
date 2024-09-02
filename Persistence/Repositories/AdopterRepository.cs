@@ -1,10 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
@@ -14,6 +10,8 @@ namespace Persistence.Repositories
         {
         }
 
+        public void CreateAdopter(Adopter adopter) => Create(adopter);
+
         public Adopter GetAdopter(Guid adopterId, bool trackChanges) =>
             FinByCondition(a => a.Id.Equals(adopterId), trackChanges)
             .SingleOrDefault();
@@ -21,5 +19,7 @@ namespace Persistence.Repositories
         public IEnumerable<Adopter> GetAdopters(bool trackChanges) =>
             FindAll(trackChanges)
             .ToList();
+
+        
     }
 }
