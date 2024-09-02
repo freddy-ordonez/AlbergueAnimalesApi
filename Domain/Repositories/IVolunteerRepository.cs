@@ -6,5 +6,7 @@ namespace Domain.Repositories
     {
         IEnumerable<Volunteer> FindVoluteers(bool trackChanges);
         Volunteer FindVolunteer(Guid volunteerId, bool trackChanges);
+
+        void CreateVolunteer(Volunteer volunteer);
     }
 }

@@ -25,6 +25,18 @@ namespace Services
             _mapper = mapper;
         }
 
+        public VolunteerDto CreateVolunteer(VolunteerForCreationDto volunteer)
+        {
+            var volunterEntity = _mapper.Map<Volunteer>(volunteer);
+
+            _repository.Volunteer.CreateVolunteer(volunterEntity);
+            _repository.Save();
+
+            var volunteerDto = _mapper.Map<VolunteerDto>(volunterEntity);
+
+            return volunteerDto;
+        }
+
         public VolunteerDto GetVolunteer(Guid volunterId, bool trackChanges)
         {
             var volunteer = _repository.Volunteer.FindVolunteer(volunterId, trackChanges);

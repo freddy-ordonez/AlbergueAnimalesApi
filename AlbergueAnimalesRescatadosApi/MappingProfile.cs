@@ -18,6 +18,7 @@ namespace AlbergueAnimalesRescatadosApi
             CreateMap<AdopterForCreationDto, Adopter>();
             
             CreateMap<Volunteer, VolunteerDto>();
+            CreateMap<VolunteerForCreationDto, Volunteer>();
         }
     }
 }

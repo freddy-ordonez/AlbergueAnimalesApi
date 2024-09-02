@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
+using Shared.Dto.Volunteer;
 
 namespace Presentation.Controllers
 {
@@ -26,12 +27,24 @@ namespace Presentation.Controllers
             return Ok(volunteers);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name = "VolunteerById")]
         public IActionResult GetVolunteer(Guid id)
         {
             var volunter = _service.VolunteerService.GetVolunteer(id, trackChanges: false);
 
             return Ok(volunter);
         }
+    
+        [HttpPost]
+        public IActionResult CreateVolunteer([FromBody] VolunteerForCreationDto volunteer)
+        {
+            if(volunteer is null)
+                return BadRequest("The volunteer object is null");
+            
+            var volunterDto = _service.VolunteerService.CreateVolunteer(volunteer);
+
+            return CreatedAtRoute("VolunteerById", new {id = volunterDto.Id}, volunterDto);
+        }
     }
+
 }

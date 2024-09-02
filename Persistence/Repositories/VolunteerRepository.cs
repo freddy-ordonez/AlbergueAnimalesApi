@@ -14,6 +14,8 @@ namespace Persistence.Repositories
         {
         }
 
+        public void CreateVolunteer(Volunteer volunteer) => Create(volunteer);
+
         public Volunteer FindVolunteer(Guid volunteerId, bool trackChanges) => 
             FinByCondition(v => v.Id.Equals(volunteerId), trackChanges)
             .SingleOrDefault();
