@@ -40,5 +40,13 @@ namespace Presentation.Controllers
 
             return CreatedAtRoute("AnimalById", new {id = animalCreate.Id}, animalCreate);
         }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteAnimal(Guid id)
+        {
+            _service.AnimalService.DeleteAnimal(id, trackChanges: false);
+
+            return NoContent();
+        }
     }
 }

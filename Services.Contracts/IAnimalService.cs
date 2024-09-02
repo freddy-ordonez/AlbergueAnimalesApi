@@ -14,5 +14,7 @@ namespace Services.Contracts
         IEnumerable<AnimalDto> GetAllAnimals(bool trackChanges);
         AnimalDto GetAnimal(Guid animalId, bool trackChanges);
         AnimalDto CreateAnimal(AnimalForCreationDto animalDto);
+
+        void DeleteAnimal(Guid id, bool trackChanges);
     }
 }

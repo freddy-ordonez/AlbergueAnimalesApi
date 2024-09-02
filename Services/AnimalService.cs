@@ -33,6 +33,16 @@ namespace Services
             return animalReturnDto;
         }
 
+        public void DeleteAnimal(Guid id, bool trackChanges)
+        {
+            var animalEntity = _repository.Animal.GetAnimal(id, trackChanges);
+            if(animalEntity is null)
+                throw new AnimalNotFoundException(id);
+            
+            _repository.Animal.DeleteAnimal(animalEntity);
+            _repository.Save();
+        }
+
         public IEnumerable<AnimalDto> GetAllAnimals(bool trackChanges)
         {
 
