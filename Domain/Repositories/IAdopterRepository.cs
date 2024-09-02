@@ -12,5 +12,6 @@ namespace Domain.Repositories
         IEnumerable<Adopter> GetAdopters(bool trackChanges);
         Adopter GetAdopter(Guid adopterId, bool trackChanges);
         void CreateAdopter(Adopter adopter);
+        void DeleteAdopter(Adopter adopter);
     }
 }

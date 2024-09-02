@@ -42,5 +42,12 @@ namespace Presentation.Controllers
             return CreatedAtRoute("AdopterById", new {id = adopterDto.Id}, adopterDto);
         }
 
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteAdopter(Guid id)
+        {
+            _service.AdopterService.DeleteAdopter(id, trackChanges: false);
+
+            return NoContent();
+        }
     }
 }

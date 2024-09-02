@@ -12,6 +12,8 @@ namespace Persistence.Repositories
 
         public void CreateAdopter(Adopter adopter) => Create(adopter);
 
+        public void DeleteAdopter(Adopter adopter) => Delete(adopter);
+
         public Adopter GetAdopter(Guid adopterId, bool trackChanges) =>
             FinByCondition(a => a.Id.Equals(adopterId), trackChanges)
             .SingleOrDefault();

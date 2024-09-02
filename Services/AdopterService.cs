@@ -31,7 +31,17 @@ namespace Services
 
             return adopterDto;
         }
-        
+
+        public void DeleteAdopter(Guid id, bool trackChanges)
+        {
+            var adopterEntity = _repository.Adopter.GetAdopter(id, trackChanges);
+            if(adopterEntity is null)
+                throw new AdopterNotFountException(id);
+            
+            _repository.Adopter.DeleteAdopter(adopterEntity);
+            _repository.Save();
+        }
+
         public AdopterDto GetAdopter(Guid adopterId, bool trackChanges)
         {
             var adopter = _repository.Adopter.GetAdopter(adopterId, trackChanges);
