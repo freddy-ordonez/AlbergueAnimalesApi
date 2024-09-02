@@ -45,6 +45,14 @@ namespace Presentation.Controllers
 
             return CreatedAtRoute("VolunteerById", new {id = volunterDto.Id}, volunterDto);
         }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteVolunteer(Guid id)
+        {
+            _service.VolunteerService.DeleteVolunteer(id, trackChanges: false);
+
+            return NoContent();
+        }
     }
 
 }

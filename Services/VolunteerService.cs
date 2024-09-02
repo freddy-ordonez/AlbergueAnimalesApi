@@ -37,6 +37,16 @@ namespace Services
             return volunteerDto;
         }
 
+        public void DeleteVolunteer(Guid id, bool trackChanges)
+        {
+            var volunteerEntity = _repository.Volunteer.FindVolunteer(id, trackChanges);
+            if(volunteerEntity is null)
+                throw new VolunteerNotFoundException(id);
+            
+            _repository.Volunteer.DeleteVolunteer(volunteerEntity);
+            _repository.Save();
+        }
+
         public VolunteerDto GetVolunteer(Guid volunterId, bool trackChanges)
         {
             var volunteer = _repository.Volunteer.FindVolunteer(volunterId, trackChanges);

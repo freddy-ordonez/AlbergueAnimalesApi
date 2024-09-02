@@ -16,6 +16,8 @@ namespace Persistence.Repositories
 
         public void CreateVolunteer(Volunteer volunteer) => Create(volunteer);
 
+        public void DeleteVolunteer(Volunteer volunteer) => Delete(volunteer);
+
         public Volunteer FindVolunteer(Guid volunteerId, bool trackChanges) => 
             FinByCondition(v => v.Id.Equals(volunteerId), trackChanges)
             .SingleOrDefault();
@@ -24,4 +26,4 @@ namespace Persistence.Repositories
             FindAll(trackChanges)
             .ToList();
     }
-}
+}
