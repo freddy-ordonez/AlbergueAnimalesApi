@@ -63,5 +63,15 @@ namespace Services
 
             return animalDto;
         }
+
+        public void UpdateAnimal(Guid id, AnimalForUpdateDto animalDto, bool trackChanges)
+        {
+            var animal = _repository.Animal.GetAnimal(id, trackChanges);
+            if(animal is null)
+                throw new AnimalNotFoundException(id);
+            
+            _mapper.Map(animalDto, animal);
+            _repository.Save();
+        }
     }
 }

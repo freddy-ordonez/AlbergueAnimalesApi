@@ -48,5 +48,13 @@ namespace Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id:guid}")]
+        public IActionResult UpdateAnimal(Guid id, [FromBody] AnimalForUpdateDto animal)
+        {
+            _service.AnimalService.UpdateAnimal(id, animal, trackChanges: true);
+
+            return NoContent();
+        }
     }
 }

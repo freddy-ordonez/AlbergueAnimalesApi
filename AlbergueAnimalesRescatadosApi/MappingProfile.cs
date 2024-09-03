@@ -13,6 +13,7 @@ namespace AlbergueAnimalesRescatadosApi
         {
             CreateMap<Animal, AnimalDto>();
             CreateMap<AnimalForCreationDto, Animal>();
+            CreateMap<AnimalForUpdateDto, Animal>();
 
             CreateMap<Adopter, AdopterDto>();
             CreateMap<AdopterForCreationDto, Adopter>();

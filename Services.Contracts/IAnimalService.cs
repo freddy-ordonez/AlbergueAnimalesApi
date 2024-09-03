@@ -16,5 +16,6 @@ namespace Services.Contracts
         AnimalDto CreateAnimal(AnimalForCreationDto animalDto);
 
         void DeleteAnimal(Guid id, bool trackChanges);
+        void UpdateAnimal(Guid id, AnimalForUpdateDto animalDto, bool trackChanges);
     }
 }
