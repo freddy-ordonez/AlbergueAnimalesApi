@@ -8,5 +8,6 @@ namespace Services.Contracts
         AdopterDto GetAdopter(Guid adopterId, bool trackChanges);
         AdopterDto CreateAdopter(AdopterForCreationDto adopter);
         void DeleteAdopter(Guid id, bool trackChanges);
+        void UpdateAdopter(Guid id, AdopterForUpdateDto adopter, bool trackChanges);
     }
 }

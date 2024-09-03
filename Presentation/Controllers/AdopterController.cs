@@ -49,5 +49,13 @@ namespace Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id:guid}")]
+        public IActionResult UpdateAdopter(Guid id, [FromBody] AdopterForUpdateDto adopter)
+        {
+            _service.AdopterService.UpdateAdopter(id, adopter, trackChanges: true);
+
+            return NoContent();
+        }
     }
 }

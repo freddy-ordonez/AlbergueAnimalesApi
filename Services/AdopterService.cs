@@ -61,5 +61,15 @@ namespace Services
 
            return adoptersDtos;
         }
+
+        public void UpdateAdopter(Guid id, AdopterForUpdateDto adopter, bool trackChanges)
+        {
+            var adopterEntity = _repository.Adopter.GetAdopter(id, trackChanges);
+            if(adopterEntity is null)
+                throw new AdopterNotFountException(id);
+            
+            _mapper.Map(adopter, adopterEntity);
+            _repository.Save();
+        }
     }
 }
