@@ -66,5 +66,15 @@ namespace Services
 
             return volunteersDto;
         }
+
+        public void UpdateVolunteer(Guid id, VolunteerForUpdateDto volunteer, bool trackChanges)
+        {
+            var volunteerEntity = _repository.Volunteer.FindVolunteer(id, trackChanges);
+            if(volunteerEntity is null)
+                throw new VolunteerNotFoundException(id);
+            
+            _mapper.Map(volunteer, volunteerEntity);
+            _repository.Save();
+        }
     }
 }

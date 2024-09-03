@@ -53,6 +53,15 @@ namespace Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id:guid}")]
+        public IActionResult UpdateVolunteer(Guid id, [FromBody] VolunteerForUpdateDto volunteer)
+        {
+            _service.VolunteerService.UpdateVolunteer(id, volunteer, trackChanges: true);
+
+            return NoContent();
+        }
+
     }
 
 }

@@ -9,5 +9,6 @@ namespace Services.Contracts
         VolunteerDto GetVolunteer(Guid volunterId, bool trackChanges);
         VolunteerDto CreateVolunteer(VolunteerForCreationDto volunteer);
         void DeleteVolunteer(Guid id, bool trackChanges);
+        void UpdateVolunteer(Guid id, VolunteerForUpdateDto volunteer, bool trackChanges);
     }
 }
