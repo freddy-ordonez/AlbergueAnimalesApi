@@ -53,6 +53,17 @@ namespace Services
             return AdopterDto;
         }
 
+        public (AdopterForUpdateDto adopterToPatch, Adopter adopterEntity) GetAdopterForPatch(Guid id, bool trackChanges)
+        {
+            var adopterEntity = _repository.Adopter.GetAdopter(id, trackChanges);
+            if(adopterEntity is null)
+                throw new AdopterNotFountException(id);
+
+            var adopterToPatch = _mapper.Map<AdopterForUpdateDto>(adopterEntity); 
+
+            return (adopterToPatch, adopterEntity);
+        }
+
         public IEnumerable<AdopterDto> GetAdopters(bool trackChanges)
         {
            var adopters = _repository.Adopter.GetAdopters(trackChanges);
@@ -60,6 +71,12 @@ namespace Services
            var adoptersDtos = _mapper.Map<IEnumerable<AdopterDto>>(adopters);
 
            return adoptersDtos;
+        }
+
+        public void SaveChangesForPatch(AdopterForUpdateDto adopterToPatch, Adopter adopterEntity)
+        {
+            _mapper.Map(adopterToPatch, adopterEntity);
+            _repository.Save();
         }
 
         public void UpdateAdopter(Guid id, AdopterForUpdateDto adopter, bool trackChanges)

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Shared.Dto.Adopter;
@@ -57,5 +58,21 @@ namespace Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpPatch("{id:guid}")]
+        public IActionResult PartiallyUpdateAdopter(Guid id, JsonPatchDocument<AdopterForUpdateDto> patchDoc)
+        {
+            if(patchDoc is null)
+                return BadRequest("patchDoc object send from client is null");
+            
+            var result = _service.AdopterService.GetAdopterForPatch(id, trackChanges: true);
+
+            patchDoc.ApplyTo(result.adopterToPatch);
+
+            _service.AdopterService.SaveChangesForPatch(result.adopterToPatch, result.adopterEntity);
+
+            return NoContent();
+        }
+    
     }
 }

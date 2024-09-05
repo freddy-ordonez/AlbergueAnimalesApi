@@ -78,7 +78,6 @@ namespace Services
         public void SaveChangesForPatch(AnimalForUpdateDto animalToPatch, Animal animalEntity)
         {
             _mapper.Map(animalToPatch, animalEntity);
-            _loggerManager.LogInfo(animalEntity.Name);
             _repository.Save();
         }
 
