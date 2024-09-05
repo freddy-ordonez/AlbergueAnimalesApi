@@ -1,8 +1,12 @@
 using System.Text.Json.Serialization;
 using AlbergueAnimalesRescatadosApi.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Options;
 using NLog;
 using Services.Contracts;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,12 +20,14 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddControllers(config => {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
+    config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
 })
 .AddXmlDataContractSerializerFormatters()
 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
 .AddJsonOptions(options => {
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
+
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
@@ -51,3 +57,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+NewtonsoftJsonInputFormatter GetJsonPatchInputFormatter() => 
+    new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
+    .Services.BuildServiceProvider()
+    .GetRequiredService<IOptions<MvcOptions>>().Value.InputFormatters
+    .OfType<NewtonsoftJsonPatchInputFormatter>().First();

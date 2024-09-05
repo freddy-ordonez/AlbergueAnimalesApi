@@ -8270,3 +8270,28 @@
 2024-09-02 21:12:21.0977 Trace FileTarget(Name=logfile) has 2 layouts
 2024-09-02 21:12:21.0977 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.SingleProcessFileAppender+Factory
 2024-09-02 21:12:21.0977 Info Configuration initialized.
+2024-09-03 17:48:59.8257 Info AppDomain Shutting down. LogFactory closing...
+2024-09-03 17:48:59.8394 Debug Stop watching file-filter 'nlog.config' in directory: C:\Users\fredd\OneDrive - Universidad Americana Uam SRL\Documentos\Proyectos Asp .Net\AlbergueAnimalesRescatadosApi\AlbergueAnimalesRescatadosApi
+2024-09-03 17:48:59.8394 Trace Flushing all 1 targets...
+2024-09-03 17:48:59.8394 Trace ForEachItemInParallel() 1 items
+2024-09-03 17:48:59.8479 Trace FileTarget(Name=logfile): FlushAsync
+2024-09-03 17:48:59.8479 Trace Continuation invoked: 
+2024-09-03 17:48:59.8479 Trace Parallel task completed. 0 items remaining
+2024-09-03 17:48:59.8479 Debug Flush completed
+2024-09-03 17:48:59.8479 Trace FileTarget(Name=logfile): FlushAsync Done
+2024-09-03 17:48:59.8479 Debug Closing logging configuration...
+2024-09-03 17:48:59.8479 Trace Closing FileTarget(Name=logfile)
+2024-09-03 17:48:59.8479 Debug FileTarget(Name=logfile): Closing...
+2024-09-03 17:48:59.8479 Debug FileTarget(Name=logfile): Closed.
+2024-09-03 17:48:59.8479 Trace Closing .\logs\${shortdate}_logfile.txt
+2024-09-03 17:48:59.8479 Trace Closing Layout Renderer: ${literal}
+2024-09-03 17:48:59.8479 Trace Closing Layout Renderer: ${shortdate}
+2024-09-03 17:48:59.8479 Trace Closing Layout Renderer: ${literal}
+2024-09-03 17:48:59.8479 Trace Closing ${longdate} ${level:uppercase=true} ${message}
+2024-09-03 17:48:59.8479 Trace Closing Layout Renderer: ${longdate}
+2024-09-03 17:48:59.8479 Trace Closing Layout Renderer: ${literal}
+2024-09-03 17:48:59.8479 Trace Closing Layout Renderer: ${level}
+2024-09-03 17:48:59.8479 Trace Closing Layout Renderer: ${literal}
+2024-09-03 17:48:59.8609 Trace Closing Layout Renderer: ${message}
+2024-09-03 17:48:59.8609 Debug Finished closing logging configuration.
+2024-09-03 17:48:59.8609 Info LogFactory has been closed.
