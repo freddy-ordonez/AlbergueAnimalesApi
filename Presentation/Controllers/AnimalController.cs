@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
-using Shared.Dto;
 using Shared.Dto.Animal;
 
 namespace Presentation.Controllers
@@ -54,6 +54,21 @@ namespace Presentation.Controllers
         {
             _service.AnimalService.UpdateAnimal(id, animal, trackChanges: true);
 
+            return NoContent();
+        }
+    
+        [HttpPatch("{id:guid}")]
+        public IActionResult PartiallyUpdateAnimal(Guid id, [FromBody] JsonPatchDocument<AnimalForUpdateDto> patchDoc)
+        {
+            if(patchDoc is null)
+                return BadRequest("patchDoc object sent from client is null");
+            
+            var result = _service.AnimalService.GetAnimalForPatch(id, trackChanges: true);
+
+            patchDoc.ApplyTo(result.animalToPatch);
+
+            _service.AnimalService.SaveChangesForPatch(result.animalToPatch, result.animalEntity);
+            
             return NoContent();
         }
     }

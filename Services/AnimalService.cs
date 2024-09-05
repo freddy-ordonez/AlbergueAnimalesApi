@@ -64,6 +64,24 @@ namespace Services
             return animalDto;
         }
 
+        public (AnimalForUpdateDto animalToPatch, Animal animalEntity) GetAnimalForPatch(Guid id, bool trackChanges)
+        {
+            var animalEntity = _repository.Animal.GetAnimal(id, trackChanges);
+            if(animalEntity is null)
+                throw new AnimalNotFoundException(id);
+            
+            var animalToPatch = _mapper.Map<AnimalForUpdateDto>(animalEntity);
+
+            return (animalToPatch, animalEntity);
+        }
+
+        public void SaveChangesForPatch(AnimalForUpdateDto animalToPatch, Animal animalEntity)
+        {
+            _mapper.Map(animalToPatch, animalEntity);
+            _loggerManager.LogInfo(animalEntity.Name);
+            _repository.Save();
+        }
+
         public void UpdateAnimal(Guid id, AnimalForUpdateDto animalDto, bool trackChanges)
         {
             var animal = _repository.Animal.GetAnimal(id, trackChanges);

@@ -17,5 +17,8 @@ namespace Services.Contracts
 
         void DeleteAnimal(Guid id, bool trackChanges);
         void UpdateAnimal(Guid id, AnimalForUpdateDto animalDto, bool trackChanges);
+        (AnimalForUpdateDto animalToPatch, Animal animalEntity) GetAnimalForPatch(Guid id, bool trackChanges);
+
+        void SaveChangesForPatch(AnimalForUpdateDto animalToPatch, Animal animalEntity);
     }
 }
