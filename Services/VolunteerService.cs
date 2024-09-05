@@ -58,6 +58,17 @@ namespace Services
             return volunteerDto;
         }
 
+        public (VolunteerForUpdateDto volunteerToPatch, Volunteer volunteerEntity) GetVolunteerForPatch(Guid id, bool trackChanges)
+        {
+            var volunteerEntity = _repository.Volunteer.FindVolunteer(id, trackChanges);
+            if(volunteerEntity is null)
+                throw new VolunteerNotFoundException(id);
+            
+            var volunteerToPatch = _mapper.Map<VolunteerForUpdateDto>(volunteerEntity);
+
+            return (volunteerToPatch, volunteerEntity);
+        }
+
         public IEnumerable<VolunteerDto> GetVolunteers(bool trackChanges)
         {
             var volunteers = _repository.Volunteer.FindVoluteers(trackChanges);
@@ -65,6 +76,12 @@ namespace Services
             var volunteersDto = _mapper.Map<IEnumerable<VolunteerDto>>(volunteers);
 
             return volunteersDto;
+        }
+
+        public void SaveChangesForPatch(VolunteerForUpdateDto volunteerToPatch, Volunteer volunterEntity)
+        {
+            _mapper.Map(volunteerToPatch, volunterEntity);
+            _repository.Save();
         }
 
         public void UpdateVolunteer(Guid id, VolunteerForUpdateDto volunteer, bool trackChanges)

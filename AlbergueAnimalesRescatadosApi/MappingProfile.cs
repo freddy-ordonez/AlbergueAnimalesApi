@@ -21,7 +21,7 @@ namespace AlbergueAnimalesRescatadosApi
             
             CreateMap<Volunteer, VolunteerDto>();
             CreateMap<VolunteerForCreationDto, Volunteer>();
-            CreateMap<VolunteerForUpdateDto, Volunteer>();
+            CreateMap<VolunteerForUpdateDto, Volunteer>().ReverseMap();
         }
     }
 }

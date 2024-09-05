@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Shared.Dto.Volunteer;
@@ -62,6 +63,20 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
+        [HttpPatch("{id:guid}")]
+        public IActionResult PartiallyUpdateVolunteer(Guid id, JsonPatchDocument<VolunteerForUpdateDto> patchDoc)
+        {
+            if(patchDoc is null)
+                return BadRequest("The patchDoc object send from client is null");
+            
+            var result = _service.VolunteerService.GetVolunteerForPatch(id, trackChanges:true);
+
+            patchDoc.ApplyTo(result.volunteerToPatch);
+
+            _service.VolunteerService.SaveChangesForPatch(result.volunteerToPatch, result.volunteerEntity);
+
+            return NoContent();
+        }
     }
 
 }

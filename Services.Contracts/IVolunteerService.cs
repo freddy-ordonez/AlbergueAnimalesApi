@@ -10,5 +10,8 @@ namespace Services.Contracts
         VolunteerDto CreateVolunteer(VolunteerForCreationDto volunteer);
         void DeleteVolunteer(Guid id, bool trackChanges);
         void UpdateVolunteer(Guid id, VolunteerForUpdateDto volunteer, bool trackChanges);
+
+        (VolunteerForUpdateDto volunteerToPatch, Volunteer volunteerEntity) GetVolunteerForPatch(Guid id, bool trackChanges);
+        void SaveChangesForPatch(VolunteerForUpdateDto volunteerToPatch, Volunteer volunterEntity);
     }
 }
