@@ -68,16 +68,16 @@ namespace Presentation.Controllers
             if(patchDoc is null)
                 return BadRequest("patchDoc object sent from client is null");
             
-            var result = _service.AnimalService.GetAnimalForPatch(id, trackChanges: true);
+            var (animalToPatch, animalEntity ) = _service.AnimalService.GetAnimalForPatch(id, trackChanges: true);
 
-            patchDoc.ApplyTo(result.animalToPatch);
+            patchDoc.ApplyTo(animalToPatch, ModelState);
 
-            TryValidateModel(result.animalToPatch);
+            TryValidateModel(animalToPatch);
 
             if(!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            _service.AnimalService.SaveChangesForPatch(result.animalToPatch, result.animalEntity);
+            _service.AnimalService.SaveChangesForPatch(animalToPatch, animalEntity);
             
             return NoContent();
         }
