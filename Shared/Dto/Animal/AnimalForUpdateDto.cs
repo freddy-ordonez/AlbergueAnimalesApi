@@ -1,12 +1,10 @@
-using Domain.Enums.Animal;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shared.Dto.Animal
 {
-    public record AnimalForUpdateDto
+    public record AnimalForUpdateDto : AnimalForManipulation
     {
-        public string? Name {get; init;}
-        public AnimalType Type {get; init;}
-        public AnimalState State {get; init;}
-        public DateTime DateDelivery {get; init;}
+        [Required(ErrorMessage = "The DateDelivery is required")]
+        public DateTime? DateDelivery {get; init;}
     }
 }

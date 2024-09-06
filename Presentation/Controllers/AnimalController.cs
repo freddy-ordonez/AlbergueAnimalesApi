@@ -6,7 +6,6 @@ using Shared.Dto.Animal;
 namespace Presentation.Controllers
 {
     [Route("api/animals")]
-    [ApiController]
     public class AnimalController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -36,6 +35,9 @@ namespace Presentation.Controllers
             if(animal is null)
                 return BadRequest("The AnimalDto object is null ");
             
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+            
             var animalCreate = _service.AnimalService.CreateAnimal(animal);
 
             return CreatedAtRoute("AnimalById", new {id = animalCreate.Id}, animalCreate);
@@ -52,6 +54,9 @@ namespace Presentation.Controllers
         [HttpPut("{id:guid}")]
         public IActionResult UpdateAnimal(Guid id, [FromBody] AnimalForUpdateDto animal)
         {
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
             _service.AnimalService.UpdateAnimal(id, animal, trackChanges: true);
 
             return NoContent();
@@ -66,6 +71,11 @@ namespace Presentation.Controllers
             var result = _service.AnimalService.GetAnimalForPatch(id, trackChanges: true);
 
             patchDoc.ApplyTo(result.animalToPatch);
+
+            TryValidateModel(result.animalToPatch);
+
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
 
             _service.AnimalService.SaveChangesForPatch(result.animalToPatch, result.animalEntity);
             

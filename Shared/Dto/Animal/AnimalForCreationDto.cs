@@ -6,10 +6,5 @@ using Domain.Enums.Animal;
 
 namespace Shared.Dto.Animal
 {
-    public record AnimalForCreationDto
-    {
-       public string? Name {get; init;}
-       public AnimalType Type {get; init;}
-       public AnimalState State {get; init;} 
-    }
+    public record AnimalForCreationDto : AnimalForManipulation;
 }
