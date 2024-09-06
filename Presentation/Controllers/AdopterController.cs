@@ -37,6 +37,9 @@ namespace Presentation.Controllers
         {
             if(adopter is null)
                 return BadRequest("The adopter object is null");
+
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
             
             var adopterDto = _service.AdopterService.CreateAdopter(adopter);
 
@@ -54,22 +57,33 @@ namespace Presentation.Controllers
         [HttpPut("{id:guid}")]
         public IActionResult UpdateAdopter(Guid id, [FromBody] AdopterForUpdateDto adopter)
         {
+            if(adopter is null)
+                return BadRequest("The object send from client is null");
+
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
             _service.AdopterService.UpdateAdopter(id, adopter, trackChanges: true);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}")]
-        public IActionResult PartiallyUpdateAdopter(Guid id, JsonPatchDocument<AdopterForUpdateDto> patchDoc)
+        public IActionResult PartiallyUpdateAdopter(Guid id, [FromBody] JsonPatchDocument<AdopterForUpdateDto> patchDoc)
         {
             if(patchDoc is null)
                 return BadRequest("patchDoc object send from client is null");
             
-            var result = _service.AdopterService.GetAdopterForPatch(id, trackChanges: true);
+            var (adopterToPatch, adopterEntity) = _service.AdopterService.GetAdopterForPatch(id, trackChanges: true);
 
-            patchDoc.ApplyTo(result.adopterToPatch);
+            patchDoc.ApplyTo(adopterToPatch, ModelState);
 
-            _service.AdopterService.SaveChangesForPatch(result.adopterToPatch, result.adopterEntity);
+            TryValidateModel(adopterToPatch);
+
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
+            _service.AdopterService.SaveChangesForPatch(adopterToPatch, adopterEntity);
 
             return NoContent();
         }
