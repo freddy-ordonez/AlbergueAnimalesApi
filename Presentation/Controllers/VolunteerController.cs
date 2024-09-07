@@ -10,7 +10,7 @@ using Shared.Dto.Volunteer;
 namespace Presentation.Controllers
 {
     [Route("api/volunteers")]
-    [ApiController]
+    // [ApiController]
     public class VolunteerController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -42,6 +42,9 @@ namespace Presentation.Controllers
             if(volunteer is null)
                 return BadRequest("The volunteer object is null");
             
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+            
             var volunterDto = _service.VolunteerService.CreateVolunteer(volunteer);
 
             return CreatedAtRoute("VolunteerById", new {id = volunterDto.Id}, volunterDto);
@@ -58,22 +61,33 @@ namespace Presentation.Controllers
         [HttpPut("{id:guid}")]
         public IActionResult UpdateVolunteer(Guid id, [FromBody] VolunteerForUpdateDto volunteer)
         {
+            if(volunteer is null)
+                return BadRequest("The object send from the client is null");
+            
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
             _service.VolunteerService.UpdateVolunteer(id, volunteer, trackChanges: true);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}")]
-        public IActionResult PartiallyUpdateVolunteer(Guid id, JsonPatchDocument<VolunteerForUpdateDto> patchDoc)
+        public IActionResult PartiallyUpdateVolunteer(Guid id, [FromBody] JsonPatchDocument<VolunteerForUpdateDto> patchDoc)
         {
             if(patchDoc is null)
                 return BadRequest("The patchDoc object send from client is null");
             
-            var result = _service.VolunteerService.GetVolunteerForPatch(id, trackChanges:true);
+            var (volunteerToPatch, volunteerEntity) = _service.VolunteerService.GetVolunteerForPatch(id, trackChanges:true);
 
-            patchDoc.ApplyTo(result.volunteerToPatch);
+            patchDoc.ApplyTo(volunteerToPatch, ModelState);
 
-            _service.VolunteerService.SaveChangesForPatch(result.volunteerToPatch, result.volunteerEntity);
+            TryValidateModel(volunteerToPatch);
+
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
+            _service.VolunteerService.SaveChangesForPatch(volunteerToPatch, volunteerEntity);
 
             return NoContent();
         }

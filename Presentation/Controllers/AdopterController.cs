@@ -6,7 +6,7 @@ using Shared.Dto.Adopter;
 namespace Presentation.Controllers
 {
     [Route("api/adopters")]
-    [ApiController]
+    // [ApiController]
     public class AdopterController : ControllerBase
     {
         private readonly IServiceManager _service;
