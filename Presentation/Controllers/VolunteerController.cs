@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contracts;
 using Shared.Dto.Volunteer;
 
@@ -33,6 +34,7 @@ namespace Presentation.Controllers
         }
     
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateVolunteer([FromBody] VolunteerForCreationDto volunteer)
         {
             if(volunteer is null)
@@ -55,6 +57,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateVolunteer(Guid id, [FromBody] VolunteerForUpdateDto volunteer)
         {
             if(volunteer is null)

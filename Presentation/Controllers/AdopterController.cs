@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contracts;
 using Shared.Dto.Adopter;
 
@@ -33,6 +34,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateAdopter([FromBody] AdopterForCreationDto adopter)
         {
             if(adopter is null)
@@ -55,6 +57,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAdopter(Guid id, [FromBody] AdopterForUpdateDto adopter)
         {
             if(adopter is null)

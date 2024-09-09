@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contracts;
 using Shared.Dto.Animal;
 
@@ -30,6 +31,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateAnimal([FromBody] AnimalForCreationDto animal)
         {
             if(animal is null)
@@ -52,6 +54,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAnimal(Guid id, [FromBody] AnimalForUpdateDto animal)
         {
             if(!ModelState.IsValid)
