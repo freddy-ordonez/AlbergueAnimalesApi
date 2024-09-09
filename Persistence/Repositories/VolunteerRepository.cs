@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,12 @@ namespace Persistence.Repositories
 
         public void DeleteVolunteer(Volunteer volunteer) => Delete(volunteer);
 
-        public Volunteer FindVolunteer(Guid volunteerId, bool trackChanges) => 
-            FinByCondition(v => v.Id.Equals(volunteerId), trackChanges)
-            .SingleOrDefault();
+        public async Task<Volunteer> FindVolunteerAsync(Guid volunteerId, bool trackChanges) => 
+            await FinByCondition(v => v.Id.Equals(volunteerId), trackChanges)
+            .SingleOrDefaultAsync();
 
-        public IEnumerable<Volunteer> FindVoluteers(bool trackChanges) => 
-            FindAll(trackChanges)
-            .ToList();
+        public async Task<IEnumerable<Volunteer>> FindVoluteersAsync(bool trackChanges) => 
+            await FindAll(trackChanges)
+            .ToListAsync();
     }
-}
+}

@@ -4,11 +4,6 @@ using Domain.Entities.Exceptions;
 using Domain.Repositories;
 using Services.Contracts;
 using Shared.Dto.Volunteer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -25,31 +20,31 @@ namespace Services
             _mapper = mapper;
         }
 
-        public VolunteerDto CreateVolunteer(VolunteerForCreationDto volunteer)
+        public async Task<VolunteerDto> CreateVolunteerAsync(VolunteerForCreationDto volunteer)
         {
             var volunterEntity = _mapper.Map<Volunteer>(volunteer);
 
             _repository.Volunteer.CreateVolunteer(volunterEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var volunteerDto = _mapper.Map<VolunteerDto>(volunterEntity);
 
             return volunteerDto;
         }
 
-        public void DeleteVolunteer(Guid id, bool trackChanges)
+        public async Task DeleteVolunteerAsync(Guid id, bool trackChanges)
         {
-            var volunteerEntity = _repository.Volunteer.FindVolunteer(id, trackChanges);
+            var volunteerEntity = await _repository.Volunteer.FindVolunteerAsync(id, trackChanges);
             if(volunteerEntity is null)
                 throw new VolunteerNotFoundException(id);
             
             _repository.Volunteer.DeleteVolunteer(volunteerEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
 
-        public VolunteerDto GetVolunteer(Guid volunterId, bool trackChanges)
+        public async Task<VolunteerDto> GetVolunteerAsync(Guid volunterId, bool trackChanges)
         {
-            var volunteer = _repository.Volunteer.FindVolunteer(volunterId, trackChanges);
+            var volunteer = await _repository.Volunteer.FindVolunteerAsync(volunterId, trackChanges);
             if(volunteer is null)
                 throw new VolunteerNotFoundException(volunterId);
 
@@ -58,9 +53,9 @@ namespace Services
             return volunteerDto;
         }
 
-        public (VolunteerForUpdateDto volunteerToPatch, Volunteer volunteerEntity) GetVolunteerForPatch(Guid id, bool trackChanges)
+        public async Task<(VolunteerForUpdateDto volunteerToPatch, Volunteer volunteerEntity)> GetVolunteerForPatchAsync(Guid id, bool trackChanges)
         {
-            var volunteerEntity = _repository.Volunteer.FindVolunteer(id, trackChanges);
+            var volunteerEntity = await _repository.Volunteer.FindVolunteerAsync(id, trackChanges);
             if(volunteerEntity is null)
                 throw new VolunteerNotFoundException(id);
             
@@ -69,29 +64,29 @@ namespace Services
             return (volunteerToPatch, volunteerEntity);
         }
 
-        public IEnumerable<VolunteerDto> GetVolunteers(bool trackChanges)
+        public async Task<IEnumerable<VolunteerDto>> GetVolunteersAsync(bool trackChanges)
         {
-            var volunteers = _repository.Volunteer.FindVoluteers(trackChanges);
+            var volunteers = await _repository.Volunteer.FindVoluteersAsync(trackChanges);
 
             var volunteersDto = _mapper.Map<IEnumerable<VolunteerDto>>(volunteers);
 
             return volunteersDto;
         }
 
-        public void SaveChangesForPatch(VolunteerForUpdateDto volunteerToPatch, Volunteer volunterEntity)
+        public async Task SaveChangesForPatchAsync(VolunteerForUpdateDto volunteerToPatch, Volunteer volunterEntity)
         {
             _mapper.Map(volunteerToPatch, volunterEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
 
-        public void UpdateVolunteer(Guid id, VolunteerForUpdateDto volunteer, bool trackChanges)
+        public async Task UpdateVolunteerAsync(Guid id, VolunteerForUpdateDto volunteer, bool trackChanges)
         {
-            var volunteerEntity = _repository.Volunteer.FindVolunteer(id, trackChanges);
+            var volunteerEntity = await _repository.Volunteer.FindVolunteerAsync(id, trackChanges);
             if(volunteerEntity is null)
                 throw new VolunteerNotFoundException(id);
             
             _mapper.Map(volunteer, volunteerEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
     }
 }

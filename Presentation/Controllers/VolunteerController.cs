@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
@@ -21,23 +17,23 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetVolunteers()
+        public async Task<IActionResult> GetVolunteers()
         {
-            var volunteers = _service.VolunteerService.GetVolunteers(trackChanges: false);
+            var volunteers = await _service.VolunteerService.GetVolunteersAsync(trackChanges: false);
 
             return Ok(volunteers);
         }
 
         [HttpGet("{id:guid}", Name = "VolunteerById")]
-        public IActionResult GetVolunteer(Guid id)
+        public async Task<IActionResult> GetVolunteer(Guid id)
         {
-            var volunter = _service.VolunteerService.GetVolunteer(id, trackChanges: false);
+            var volunter = await _service.VolunteerService.GetVolunteerAsync(id, trackChanges: false);
 
             return Ok(volunter);
         }
     
         [HttpPost]
-        public IActionResult CreateVolunteer([FromBody] VolunteerForCreationDto volunteer)
+        public async Task<IActionResult> CreateVolunteer([FromBody] VolunteerForCreationDto volunteer)
         {
             if(volunteer is null)
                 return BadRequest("The volunteer object is null");
@@ -45,21 +41,21 @@ namespace Presentation.Controllers
             if(!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
             
-            var volunterDto = _service.VolunteerService.CreateVolunteer(volunteer);
+            var volunterDto = await _service.VolunteerService.CreateVolunteerAsync(volunteer);
 
             return CreatedAtRoute("VolunteerById", new {id = volunterDto.Id}, volunterDto);
         }
 
         [HttpDelete("{id:guid}")]
-        public IActionResult DeleteVolunteer(Guid id)
+        public async Task<IActionResult> DeleteVolunteer(Guid id)
         {
-            _service.VolunteerService.DeleteVolunteer(id, trackChanges: false);
+            await _service.VolunteerService.DeleteVolunteerAsync(id, trackChanges: false);
 
             return NoContent();
         }
 
         [HttpPut("{id:guid}")]
-        public IActionResult UpdateVolunteer(Guid id, [FromBody] VolunteerForUpdateDto volunteer)
+        public async Task<IActionResult> UpdateVolunteer(Guid id, [FromBody] VolunteerForUpdateDto volunteer)
         {
             if(volunteer is null)
                 return BadRequest("The object send from the client is null");
@@ -67,18 +63,18 @@ namespace Presentation.Controllers
             if(!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            _service.VolunteerService.UpdateVolunteer(id, volunteer, trackChanges: true);
+            await _service.VolunteerService.UpdateVolunteerAsync(id, volunteer, trackChanges: true);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}")]
-        public IActionResult PartiallyUpdateVolunteer(Guid id, [FromBody] JsonPatchDocument<VolunteerForUpdateDto> patchDoc)
+        public async Task<IActionResult> PartiallyUpdateVolunteer(Guid id, [FromBody] JsonPatchDocument<VolunteerForUpdateDto> patchDoc)
         {
             if(patchDoc is null)
                 return BadRequest("The patchDoc object send from client is null");
             
-            var (volunteerToPatch, volunteerEntity) = _service.VolunteerService.GetVolunteerForPatch(id, trackChanges:true);
+            var (volunteerToPatch, volunteerEntity) = await _service.VolunteerService.GetVolunteerForPatchAsync(id, trackChanges:true);
 
             patchDoc.ApplyTo(volunteerToPatch, ModelState);
 
@@ -87,7 +83,7 @@ namespace Presentation.Controllers
             if(!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            _service.VolunteerService.SaveChangesForPatch(volunteerToPatch, volunteerEntity);
+            await _service.VolunteerService.SaveChangesForPatchAsync(volunteerToPatch, volunteerEntity);
 
             return NoContent();
         }

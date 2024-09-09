@@ -5,13 +5,13 @@ namespace Services.Contracts
 {
     public interface IVolunteerService
     {
-        IEnumerable<VolunteerDto> GetVolunteers(bool trackChanges);
-        VolunteerDto GetVolunteer(Guid volunterId, bool trackChanges);
-        VolunteerDto CreateVolunteer(VolunteerForCreationDto volunteer);
-        void DeleteVolunteer(Guid id, bool trackChanges);
-        void UpdateVolunteer(Guid id, VolunteerForUpdateDto volunteer, bool trackChanges);
+        Task<IEnumerable<VolunteerDto>> GetVolunteersAsync(bool trackChanges);
+        Task<VolunteerDto> GetVolunteerAsync(Guid volunterId, bool trackChanges);
+        Task<VolunteerDto> CreateVolunteerAsync(VolunteerForCreationDto volunteer);
+        Task DeleteVolunteerAsync(Guid id, bool trackChanges);
+        Task UpdateVolunteerAsync(Guid id, VolunteerForUpdateDto volunteer, bool trackChanges);
 
-        (VolunteerForUpdateDto volunteerToPatch, Volunteer volunteerEntity) GetVolunteerForPatch(Guid id, bool trackChanges);
-        void SaveChangesForPatch(VolunteerForUpdateDto volunteerToPatch, Volunteer volunterEntity);
+        Task<(VolunteerForUpdateDto volunteerToPatch, Volunteer volunteerEntity)> GetVolunteerForPatchAsync(Guid id, bool trackChanges);
+        Task SaveChangesForPatchAsync(VolunteerForUpdateDto volunteerToPatch, Volunteer volunterEntity);
     }
 }
