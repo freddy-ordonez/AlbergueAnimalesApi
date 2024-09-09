@@ -20,31 +20,31 @@ namespace Services
             _mapper = mapper;
         }
 
-        public AdopterDto CreateAdopter(AdopterForCreationDto adopter)
+        public async Task<AdopterDto> CreateAdopterAsync(AdopterForCreationDto adopter)
         {
             var adopterEntity = _mapper.Map<Adopter>(adopter);
 
             _repository.Adopter.CreateAdopter(adopterEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var adopterDto = _mapper.Map<AdopterDto>(adopterEntity);
 
             return adopterDto;
         }
 
-        public void DeleteAdopter(Guid id, bool trackChanges)
+        public async Task DeleteAdopterAsync(Guid id, bool trackChanges)
         {
-            var adopterEntity = _repository.Adopter.GetAdopter(id, trackChanges);
+            var adopterEntity = await _repository.Adopter.GetAdopterAsync(id, trackChanges);
             if(adopterEntity is null)
                 throw new AdopterNotFountException(id);
             
             _repository.Adopter.DeleteAdopter(adopterEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
 
-        public AdopterDto GetAdopter(Guid adopterId, bool trackChanges)
+        public async Task<AdopterDto> GetAdopterAsync(Guid adopterId, bool trackChanges)
         {
-            var adopter = _repository.Adopter.GetAdopter(adopterId, trackChanges);
+            var adopter = await _repository.Adopter.GetAdopterAsync(adopterId, trackChanges);
             if(adopter is null)
                 throw new AdopterNotFountException(adopterId);
             
@@ -53,9 +53,9 @@ namespace Services
             return AdopterDto;
         }
 
-        public (AdopterForUpdateDto adopterToPatch, Adopter adopterEntity) GetAdopterForPatch(Guid id, bool trackChanges)
+        public async Task<(AdopterForUpdateDto adopterToPatch, Adopter adopterEntity)> GetAdopterForPatchAsync(Guid id, bool trackChanges)
         {
-            var adopterEntity = _repository.Adopter.GetAdopter(id, trackChanges);
+            var adopterEntity = await _repository.Adopter.GetAdopterAsync(id, trackChanges);
             if(adopterEntity is null)
                 throw new AdopterNotFountException(id);
 
@@ -64,29 +64,29 @@ namespace Services
             return (adopterToPatch, adopterEntity);
         }
 
-        public IEnumerable<AdopterDto> GetAdopters(bool trackChanges)
+        public async Task<IEnumerable<AdopterDto>> GetAdoptersAsync(bool trackChanges)
         {
-           var adopters = _repository.Adopter.GetAdopters(trackChanges);
+           var adopters = await _repository.Adopter.GetAdoptersAsync(trackChanges);
 
            var adoptersDtos = _mapper.Map<IEnumerable<AdopterDto>>(adopters);
 
            return adoptersDtos;
         }
 
-        public void SaveChangesForPatch(AdopterForUpdateDto adopterToPatch, Adopter adopterEntity)
+        public async Task SaveChangesForPatchAsync(AdopterForUpdateDto adopterToPatch, Adopter adopterEntity)
         {
             _mapper.Map(adopterToPatch, adopterEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
 
-        public void UpdateAdopter(Guid id, AdopterForUpdateDto adopter, bool trackChanges)
+        public async Task UpdateAdopterAsync(Guid id, AdopterForUpdateDto adopter, bool trackChanges)
         {
-            var adopterEntity = _repository.Adopter.GetAdopter(id, trackChanges);
+            var adopterEntity = await _repository.Adopter.GetAdopterAsync(id, trackChanges);
             if(adopterEntity is null)
                 throw new AdopterNotFountException(id);
             
             _mapper.Map(adopter, adopterEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
     }
 }

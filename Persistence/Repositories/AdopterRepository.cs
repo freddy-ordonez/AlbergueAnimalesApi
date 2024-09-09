@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Persistence.Repositories
@@ -14,13 +15,13 @@ namespace Persistence.Repositories
 
         public void DeleteAdopter(Adopter adopter) => Delete(adopter);
 
-        public Adopter GetAdopter(Guid adopterId, bool trackChanges) =>
-            FinByCondition(a => a.Id.Equals(adopterId), trackChanges)
-            .SingleOrDefault();
+        public async Task<Adopter> GetAdopterAsync(Guid adopterId, bool trackChanges) =>
+            await FinByCondition(a => a.Id.Equals(adopterId), trackChanges)
+            .SingleOrDefaultAsync();
 
-        public IEnumerable<Adopter> GetAdopters(bool trackChanges) =>
-            FindAll(trackChanges)
-            .ToList();
+        public async Task<IEnumerable<Adopter>> GetAdoptersAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
+            .ToListAsync();
 
         
     }

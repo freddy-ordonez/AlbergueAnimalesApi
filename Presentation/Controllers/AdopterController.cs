@@ -17,23 +17,23 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAdopters()
+        public async Task<IActionResult> GetAdopters()
         {
-            var adopters = _service.AdopterService.GetAdopters(trackChanges: false);
+            var adopters = await _service.AdopterService.GetAdoptersAsync(trackChanges: false);
 
             return Ok(adopters);
         }
 
         [HttpGet("{id:guid}", Name = "AdopterById")]
-        public IActionResult GetAdopter(Guid id)
+        public async Task<IActionResult> GetAdopter(Guid id)
         {
-            var adopter = _service.AdopterService.GetAdopter(id, trackChanges: false);
+            var adopter = await _service.AdopterService.GetAdopterAsync(id, trackChanges: false);
 
             return Ok(adopter);
         }
 
         [HttpPost]
-        public IActionResult CreateAdopter([FromBody] AdopterForCreationDto adopter)
+        public async Task<IActionResult> CreateAdopter([FromBody] AdopterForCreationDto adopter)
         {
             if(adopter is null)
                 return BadRequest("The adopter object is null");
@@ -41,21 +41,21 @@ namespace Presentation.Controllers
             if(!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
             
-            var adopterDto = _service.AdopterService.CreateAdopter(adopter);
+            var adopterDto = await _service.AdopterService.CreateAdopterAsync(adopter);
 
             return CreatedAtRoute("AdopterById", new {id = adopterDto.Id}, adopterDto);
         }
 
         [HttpDelete("{id:guid}")]
-        public IActionResult DeleteAdopter(Guid id)
+        public async Task<IActionResult> DeleteAdopter(Guid id)
         {
-            _service.AdopterService.DeleteAdopter(id, trackChanges: false);
+            await _service.AdopterService.DeleteAdopterAsync(id, trackChanges: false);
 
             return NoContent();
         }
 
         [HttpPut("{id:guid}")]
-        public IActionResult UpdateAdopter(Guid id, [FromBody] AdopterForUpdateDto adopter)
+        public async Task<IActionResult> UpdateAdopter(Guid id, [FromBody] AdopterForUpdateDto adopter)
         {
             if(adopter is null)
                 return BadRequest("The object send from client is null");
@@ -63,18 +63,18 @@ namespace Presentation.Controllers
             if(!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            _service.AdopterService.UpdateAdopter(id, adopter, trackChanges: true);
+            await _service.AdopterService.UpdateAdopterAsync(id, adopter, trackChanges: true);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}")]
-        public IActionResult PartiallyUpdateAdopter(Guid id, [FromBody] JsonPatchDocument<AdopterForUpdateDto> patchDoc)
+        public async Task<IActionResult> PartiallyUpdateAdopter(Guid id, [FromBody] JsonPatchDocument<AdopterForUpdateDto> patchDoc)
         {
             if(patchDoc is null)
                 return BadRequest("patchDoc object send from client is null");
             
-            var (adopterToPatch, adopterEntity) = _service.AdopterService.GetAdopterForPatch(id, trackChanges: true);
+            var (adopterToPatch, adopterEntity) = await _service.AdopterService.GetAdopterForPatchAsync(id, trackChanges: true);
 
             patchDoc.ApplyTo(adopterToPatch, ModelState);
 
@@ -83,7 +83,7 @@ namespace Presentation.Controllers
             if(!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            _service.AdopterService.SaveChangesForPatch(adopterToPatch, adopterEntity);
+            await _service.AdopterService.SaveChangesForPatchAsync(adopterToPatch, adopterEntity);
 
             return NoContent();
         }

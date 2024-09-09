@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Domain.Repositories
 {
     public interface IAdopterRepository
     {
-        IEnumerable<Adopter> GetAdopters(bool trackChanges);
-        Adopter GetAdopter(Guid adopterId, bool trackChanges);
+        Task<IEnumerable<Adopter>> GetAdoptersAsync(bool trackChanges);
+        Task<Adopter> GetAdopterAsync(Guid adopterId, bool trackChanges);
         void CreateAdopter(Adopter adopter);
         void DeleteAdopter(Adopter adopter);
     }
