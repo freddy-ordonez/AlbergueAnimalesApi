@@ -13,6 +13,6 @@ namespace Domain.Repositories
         IVolunteerRepository Volunteer { get; }
         IAdoptionRepository Adoption { get; }
 
-        void Save();
+        Task SaveAsync();
     }
 }

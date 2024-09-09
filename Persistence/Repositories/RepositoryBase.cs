@@ -1,10 +1,6 @@
-﻿using Domain.Repositories;
+﻿using System.Linq.Expressions;
+using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
@@ -22,7 +18,7 @@ namespace Persistence.Repositories
 
         public void Delete(T entity) => context.Set<T>().Remove(entity);
 
-        public IQueryable<T> FinByCondition(System.Linq.Expressions.Expression<Func<T, bool>> expression, bool trackChanges) =>
+        public IQueryable<T> FinByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
             !trackChanges ?
             context.Set<T>()
                 .Where(expression)

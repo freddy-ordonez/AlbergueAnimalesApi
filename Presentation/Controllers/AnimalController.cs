@@ -16,21 +16,21 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAnimals()
+        public async Task<IActionResult> GetAnimals()
         {
-            var animals = _service.AnimalService.GetAllAnimals(trackChanges: false);
+            var animals = await _service.AnimalService.GetAllAnimalAsync(trackChanges: false);
             return Ok(animals);
         }
 
         [HttpGet("{id:guid}", Name = "AnimalById")]
-        public IActionResult GetAnimal(Guid id)
+        public async Task<IActionResult> GetAnimal(Guid id)
         {
-            var client = _service.AnimalService.GetAnimal(id, trackChanges: false);
+            var client = await _service.AnimalService.GetAnimalAsync(id, trackChanges: false);
             return Ok(client);
         }
 
         [HttpPost]
-        public IActionResult CreateAnimal([FromBody] AnimalForCreationDto animal)
+        public async Task<IActionResult> CreateAnimal([FromBody] AnimalForCreationDto animal)
         {
             if(animal is null)
                 return BadRequest("The AnimalDto object is null ");
@@ -38,37 +38,37 @@ namespace Presentation.Controllers
             if(!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
             
-            var animalCreate = _service.AnimalService.CreateAnimal(animal);
+            var animalCreate = await _service.AnimalService.CreateAnimalAsync(animal);
 
             return CreatedAtRoute("AnimalById", new {id = animalCreate.Id}, animalCreate);
         }
 
         [HttpDelete("{id:guid}")]
-        public IActionResult DeleteAnimal(Guid id)
+        public async Task<IActionResult> DeleteAnimal(Guid id)
         {
-            _service.AnimalService.DeleteAnimal(id, trackChanges: false);
+            await _service.AnimalService.DeleteAnimalAsync(id, trackChanges: false);
 
             return NoContent();
         }
 
         [HttpPut("{id:guid}")]
-        public IActionResult UpdateAnimal(Guid id, [FromBody] AnimalForUpdateDto animal)
+        public async Task<IActionResult> UpdateAnimal(Guid id, [FromBody] AnimalForUpdateDto animal)
         {
             if(!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            _service.AnimalService.UpdateAnimal(id, animal, trackChanges: true);
+            await _service.AnimalService.UpdateAnimalAsync(id, animal, trackChanges: true);
 
             return NoContent();
         }
     
         [HttpPatch("{id:guid}")]
-        public IActionResult PartiallyUpdateAnimal(Guid id, [FromBody] JsonPatchDocument<AnimalForUpdateDto> patchDoc)
+        public async Task<IActionResult> PartiallyUpdateAnimal(Guid id, [FromBody] JsonPatchDocument<AnimalForUpdateDto> patchDoc)
         {
             if(patchDoc is null)
                 return BadRequest("patchDoc object sent from client is null");
             
-            var (animalToPatch, animalEntity ) = _service.AnimalService.GetAnimalForPatch(id, trackChanges: true);
+            var (animalToPatch, animalEntity ) = await _service.AnimalService.GetAnimalForPatchAsync(id, trackChanges: true);
 
             patchDoc.ApplyTo(animalToPatch, ModelState);
 
@@ -77,7 +77,7 @@ namespace Presentation.Controllers
             if(!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            _service.AnimalService.SaveChangesForPatch(animalToPatch, animalEntity);
+            await _service.AnimalService.SaveChangesForPatchAsync(animalToPatch, animalEntity);
             
             return NoContent();
         }

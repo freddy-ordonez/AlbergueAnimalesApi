@@ -11,14 +11,14 @@ namespace Services.Contracts
 {
     public interface IAnimalService
     {
-        IEnumerable<AnimalDto> GetAllAnimals(bool trackChanges);
-        AnimalDto GetAnimal(Guid animalId, bool trackChanges);
-        AnimalDto CreateAnimal(AnimalForCreationDto animalDto);
+        Task<IEnumerable<AnimalDto>> GetAllAnimalAsync(bool trackChanges);
+        Task<AnimalDto> GetAnimalAsync(Guid animalId, bool trackChanges);
+        Task<AnimalDto> CreateAnimalAsync(AnimalForCreationDto animalDto);
 
-        void DeleteAnimal(Guid id, bool trackChanges);
-        void UpdateAnimal(Guid id, AnimalForUpdateDto animalDto, bool trackChanges);
-        (AnimalForUpdateDto animalToPatch, Animal animalEntity) GetAnimalForPatch(Guid id, bool trackChanges);
+        Task DeleteAnimalAsync(Guid id, bool trackChanges);
+        Task UpdateAnimalAsync(Guid id, AnimalForUpdateDto animalDto, bool trackChanges);
+        Task<(AnimalForUpdateDto animalToPatch, Animal animalEntity)> GetAnimalForPatchAsync(Guid id, bool trackChanges);
 
-        void SaveChangesForPatch(AnimalForUpdateDto animalToPatch, Animal animalEntity);
+        Task SaveChangesForPatchAsync(AnimalForUpdateDto animalToPatch, Animal animalEntity);
     }
 }

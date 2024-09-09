@@ -9,8 +9,8 @@ namespace Domain.Repositories
 {
     public interface IAnimalRepository
     {
-        IEnumerable<Animal> GetAll(bool trackChanges);
-        Animal GetAnimal(Guid animalId, bool trackChanges);
+        Task<IEnumerable<Animal>> GetAllAsync(bool trackChanges);
+        Task<Animal> GetAnimalAsync(Guid animalId, bool trackChanges);
         void CreateAnimal(Animal animal);
 
         void DeleteAnimal(Animal animal);

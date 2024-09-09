@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +20,13 @@ namespace Persistence.Repositories
 
         public void DeleteAnimal(Animal animal) => Delete(animal);
 
-        public IEnumerable<Animal> GetAll(bool trackChanges) =>
-            FindAll(trackChanges)
+        public async Task<IEnumerable<Animal>> GetAllAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
             .OrderBy(a => a.Name)
-            .ToList();
+            .ToListAsync();
 
-        public Animal GetAnimal(Guid animalId, bool trackChanges) => 
-            FinByCondition(a => a.Id.Equals(animalId), trackChanges)
-            .SingleOrDefault();
+        public async Task<Animal> GetAnimalAsync(Guid animalId, bool trackChanges) => 
+            await FinByCondition(a => a.Id.Equals(animalId), trackChanges)
+            .SingleOrDefaultAsync();
     }
 }

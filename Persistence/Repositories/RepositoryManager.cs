@@ -1,9 +1,4 @@
 ﻿using Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
@@ -32,6 +27,6 @@ namespace Persistence.Repositories
 
         public IAdoptionRepository Adoption => _adoptionRepository.Value;
 
-        public void Save() => _context.SaveChanges();
+        public Task SaveAsync() => _context.SaveChangesAsync();
     }
 }
