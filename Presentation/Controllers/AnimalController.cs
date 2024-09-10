@@ -33,13 +33,7 @@ namespace Presentation.Controllers
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateAnimal([FromBody] AnimalForCreationDto animal)
-        {
-            if(animal is null)
-                return BadRequest("The AnimalDto object is null ");
-            
-            if(!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-            
+        {  
             var animalCreate = await _service.AnimalService.CreateAnimalAsync(animal);
 
             return CreatedAtRoute("AnimalById", new {id = animalCreate.Id}, animalCreate);
@@ -57,9 +51,6 @@ namespace Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAnimal(Guid id, [FromBody] AnimalForUpdateDto animal)
         {
-            if(!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
             await _service.AnimalService.UpdateAnimalAsync(id, animal, trackChanges: true);
 
             return NoContent();

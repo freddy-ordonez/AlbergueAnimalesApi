@@ -35,9 +35,7 @@ namespace Services
 
         public async Task DeleteAnimalAsync(Guid id, bool trackChanges)
         {
-            var animalEntity = await _repository.Animal.GetAnimalAsync(id, trackChanges);
-            if(animalEntity is null)
-                throw new AnimalNotFoundException(id);
+            var animalEntity = await GetAnimalAndCheckIfExistAsync(id, trackChanges);
             
             _repository.Animal.DeleteAnimal(animalEntity);
             await _repository.SaveAsync();
@@ -55,9 +53,7 @@ namespace Services
 
         public async Task<AnimalDto> GetAnimalAsync(Guid animalId, bool trackChanges)
         {
-            var animal = await  _repository.Animal.GetAnimalAsync(animalId, trackChanges);
-            if (animal is null)
-                throw new AnimalNotFoundException(animalId);
+            var animal = await GetAnimalAndCheckIfExistAsync(animalId, trackChanges);
 
             var animalDto = _mapper.Map<AnimalDto>(animal);
 
@@ -66,9 +62,7 @@ namespace Services
 
         public async Task<(AnimalForUpdateDto animalToPatch, Animal animalEntity)> GetAnimalForPatchAsync(Guid id, bool trackChanges)
         {
-            var animalEntity =  await _repository.Animal.GetAnimalAsync(id, trackChanges);
-            if(animalEntity is null)
-                throw new AnimalNotFoundException(id);
+            var animalEntity =  await GetAnimalAndCheckIfExistAsync(id, trackChanges);
             
             var animalToPatch = _mapper.Map<AnimalForUpdateDto>(animalEntity);
 
@@ -83,13 +77,19 @@ namespace Services
 
         public async Task UpdateAnimalAsync(Guid id, AnimalForUpdateDto animalDto, bool trackChanges)
         {
-            var animal = await _repository.Animal.GetAnimalAsync(id, trackChanges);
-            if(animal is null)
-                throw new AnimalNotFoundException(id);
+            var animal = await GetAnimalAndCheckIfExistAsync(id, trackChanges);
             
             _mapper.Map(animalDto, animal);
             await _repository.SaveAsync();
         }
 
+        public async Task<Animal> GetAnimalAndCheckIfExistAsync(Guid id, bool trackChanges)
+        {
+            var animalEntity = await _repository.Animal.GetAnimalAsync(id, trackChanges);
+            if(animalEntity is null)
+                throw new AnimalNotFoundException(id);
+            
+            return animalEntity;
+        }
     }
 }
