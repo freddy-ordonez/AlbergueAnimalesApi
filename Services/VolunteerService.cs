@@ -34,9 +34,7 @@ namespace Services
 
         public async Task DeleteVolunteerAsync(Guid id, bool trackChanges)
         {
-            var volunteerEntity = await _repository.Volunteer.FindVolunteerAsync(id, trackChanges);
-            if(volunteerEntity is null)
-                throw new VolunteerNotFoundException(id);
+            var volunteerEntity = await GetVolunteerAndCheckIfExistAsync(id, trackChanges);
             
             _repository.Volunteer.DeleteVolunteer(volunteerEntity);
             await _repository.SaveAsync();
@@ -44,9 +42,7 @@ namespace Services
 
         public async Task<VolunteerDto> GetVolunteerAsync(Guid volunterId, bool trackChanges)
         {
-            var volunteer = await _repository.Volunteer.FindVolunteerAsync(volunterId, trackChanges);
-            if(volunteer is null)
-                throw new VolunteerNotFoundException(volunterId);
+            var volunteer = await GetVolunteerAndCheckIfExistAsync(volunterId, trackChanges);
 
             var volunteerDto = _mapper.Map<VolunteerDto>(volunteer);
 
@@ -55,9 +51,7 @@ namespace Services
 
         public async Task<(VolunteerForUpdateDto volunteerToPatch, Volunteer volunteerEntity)> GetVolunteerForPatchAsync(Guid id, bool trackChanges)
         {
-            var volunteerEntity = await _repository.Volunteer.FindVolunteerAsync(id, trackChanges);
-            if(volunteerEntity is null)
-                throw new VolunteerNotFoundException(id);
+            var volunteerEntity = await GetVolunteerAndCheckIfExistAsync(id, trackChanges);
             
             var volunteerToPatch = _mapper.Map<VolunteerForUpdateDto>(volunteerEntity);
 
@@ -81,12 +75,17 @@ namespace Services
 
         public async Task UpdateVolunteerAsync(Guid id, VolunteerForUpdateDto volunteer, bool trackChanges)
         {
-            var volunteerEntity = await _repository.Volunteer.FindVolunteerAsync(id, trackChanges);
-            if(volunteerEntity is null)
-                throw new VolunteerNotFoundException(id);
+            var volunteerEntity = await GetVolunteerAndCheckIfExistAsync(id, trackChanges);
             
             _mapper.Map(volunteer, volunteerEntity);
             await _repository.SaveAsync();
+        }
+
+        public async Task<Volunteer> GetVolunteerAndCheckIfExistAsync(Guid id, bool trackChanges)
+        {
+            var volunteer = await _repository.Volunteer.FindVolunteerAsync(id, trackChanges);
+            
+            return volunteer is null ? throw new VolunteerNotFoundException(id) : volunteer;
         }
     }
 }

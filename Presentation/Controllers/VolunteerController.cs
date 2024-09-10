@@ -36,13 +36,7 @@ namespace Presentation.Controllers
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateVolunteer([FromBody] VolunteerForCreationDto volunteer)
-        {
-            if(volunteer is null)
-                return BadRequest("The volunteer object is null");
-            
-            if(!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-            
+        {           
             var volunterDto = await _service.VolunteerService.CreateVolunteerAsync(volunteer);
 
             return CreatedAtRoute("VolunteerById", new {id = volunterDto.Id}, volunterDto);
@@ -60,12 +54,6 @@ namespace Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateVolunteer(Guid id, [FromBody] VolunteerForUpdateDto volunteer)
         {
-            if(volunteer is null)
-                return BadRequest("The object send from the client is null");
-            
-            if(!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
             await _service.VolunteerService.UpdateVolunteerAsync(id, volunteer, trackChanges: true);
 
             return NoContent();
