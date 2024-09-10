@@ -34,9 +34,7 @@ namespace Services
 
         public async Task DeleteAdopterAsync(Guid id, bool trackChanges)
         {
-            var adopterEntity = await _repository.Adopter.GetAdopterAsync(id, trackChanges);
-            if(adopterEntity is null)
-                throw new AdopterNotFountException(id);
+            var adopterEntity = await GetAdopterAndCheckIfExistAsync(id, trackChanges);
             
             _repository.Adopter.DeleteAdopter(adopterEntity);
             await _repository.SaveAsync();
@@ -44,9 +42,7 @@ namespace Services
 
         public async Task<AdopterDto> GetAdopterAsync(Guid adopterId, bool trackChanges)
         {
-            var adopter = await _repository.Adopter.GetAdopterAsync(adopterId, trackChanges);
-            if(adopter is null)
-                throw new AdopterNotFountException(adopterId);
+            var adopter = await GetAdopterAndCheckIfExistAsync(adopterId, trackChanges);
             
             var AdopterDto = _mapper.Map<AdopterDto>(adopter);
                 
@@ -55,9 +51,7 @@ namespace Services
 
         public async Task<(AdopterForUpdateDto adopterToPatch, Adopter adopterEntity)> GetAdopterForPatchAsync(Guid id, bool trackChanges)
         {
-            var adopterEntity = await _repository.Adopter.GetAdopterAsync(id, trackChanges);
-            if(adopterEntity is null)
-                throw new AdopterNotFountException(id);
+            var adopterEntity = await GetAdopterAndCheckIfExistAsync(id, trackChanges);
 
             var adopterToPatch = _mapper.Map<AdopterForUpdateDto>(adopterEntity); 
 
@@ -81,12 +75,17 @@ namespace Services
 
         public async Task UpdateAdopterAsync(Guid id, AdopterForUpdateDto adopter, bool trackChanges)
         {
-            var adopterEntity = await _repository.Adopter.GetAdopterAsync(id, trackChanges);
-            if(adopterEntity is null)
-                throw new AdopterNotFountException(id);
+            var adopterEntity = await GetAdopterAndCheckIfExistAsync(id, trackChanges);
             
             _mapper.Map(adopter, adopterEntity);
             await _repository.SaveAsync();
+        }
+        
+        public async Task<Adopter> GetAdopterAndCheckIfExistAsync(Guid id, bool trackChanges)
+        {
+            var adopterEntity = await _repository.Adopter.GetAdopterAsync(id, trackChanges);
+
+            return adopterEntity is null ? throw new AdopterNotFountException(id) : adopterEntity;
         }
     }
 }

@@ -36,13 +36,7 @@ namespace Presentation.Controllers
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateAdopter([FromBody] AdopterForCreationDto adopter)
-        {
-            if(adopter is null)
-                return BadRequest("The adopter object is null");
-
-            if(!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-            
+        {   
             var adopterDto = await _service.AdopterService.CreateAdopterAsync(adopter);
 
             return CreatedAtRoute("AdopterById", new {id = adopterDto.Id}, adopterDto);
@@ -60,12 +54,6 @@ namespace Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAdopter(Guid id, [FromBody] AdopterForUpdateDto adopter)
         {
-            if(adopter is null)
-                return BadRequest("The object send from client is null");
-
-            if(!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
             await _service.AdopterService.UpdateAdopterAsync(id, adopter, trackChanges: true);
 
             return NoContent();
