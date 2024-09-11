@@ -42,14 +42,14 @@ namespace Services
             await _repository.SaveAsync();
         }
 
-        public async Task<IEnumerable<AnimalDto>> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges)
+        public async Task<(IEnumerable<AnimalDto> animalDtos, MetaData metaData)> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges)
         {
 
-            var animals = await _repository.Animal.GetAllAsync(animalParameters, trackChanges);
+            var animalsWhithMetaData = await _repository.Animal.GetAllAsync(animalParameters, trackChanges);
 
-            var animalsDto = _mapper.Map<IEnumerable<AnimalDto>>(animals);
+            var animalsDto = _mapper.Map<IEnumerable<AnimalDto>>(animalsWhithMetaData);
 
-            return animalsDto;
+            return (animalDtos: animalsDto, metaData: animalsWhithMetaData.MetaData);
         }
 
         public async Task<AnimalDto> GetAnimalAsync(Guid animalId, bool trackChanges)

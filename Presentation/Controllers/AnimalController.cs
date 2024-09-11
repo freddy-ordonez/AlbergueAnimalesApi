@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
@@ -20,8 +21,11 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAnimals([FromQuery] AnimalParameters animalParameters)
         {
-            var animals = await _service.AnimalService.GetAllAnimalAsync(animalParameters, trackChanges: false);
-            return Ok(animals);
+            var pageResult = await _service.AnimalService.GetAllAnimalAsync(animalParameters, trackChanges: false);
+
+            Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pageResult.metaData);
+            
+            return Ok(pageResult.animalDtos);
         }
 
         [HttpGet("{id:guid}", Name = "AnimalById")]

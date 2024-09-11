@@ -7,7 +7,7 @@ namespace Services.Contracts
 {
     public interface IAnimalService
     {
-        Task<IEnumerable<AnimalDto>> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges);
+        Task<(IEnumerable<AnimalDto> animalDtos, MetaData metaData)> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges);
         Task<AnimalDto> GetAnimalAsync(Guid animalId, bool trackChanges);
         Task<AnimalDto> CreateAnimalAsync(AnimalForCreationDto animalDto);
 

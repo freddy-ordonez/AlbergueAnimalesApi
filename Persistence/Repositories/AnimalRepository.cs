@@ -16,12 +16,19 @@ namespace Persistence.Repositories
 
         public void DeleteAnimal(Animal animal) => Delete(animal);
 
-        public async Task<IEnumerable<Animal>> GetAllAsync(AnimalParameters animalParameters, bool trackChanges) =>
-            await FindAll(trackChanges)
-            .OrderBy(a => a.Name)
-            .Skip((animalParameters.PageNumber - 1) * animalParameters.PageSize)
-            .Take(animalParameters.PageSize)
-            .ToListAsync();
+        public async Task<PagedList<Animal>> GetAllAsync(AnimalParameters animalParameters, bool trackChanges)
+        {
+            var animals = await FindAll(trackChanges)
+                .OrderBy(a => a.Name)
+                .Skip((animalParameters.PageNumber - 1) * animalParameters.PageSize)
+                .Take(animalParameters.PageSize)
+                .ToListAsync();
+
+            var count = await FindAll(trackChanges).CountAsync();
+            
+            return new PagedList<Animal>(animals, count, animalParameters.PageNumber, animalParameters.PageSize);
+
+        }
 
         public async Task<Animal> GetAnimalAsync(Guid animalId, bool trackChanges) => 
             await FinByCondition(a => a.Id.Equals(animalId), trackChanges)
