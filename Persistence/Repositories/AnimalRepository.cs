@@ -1,11 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.RequestFeactures;
 
 namespace Persistence.Repositories
 {
@@ -20,9 +16,11 @@ namespace Persistence.Repositories
 
         public void DeleteAnimal(Animal animal) => Delete(animal);
 
-        public async Task<IEnumerable<Animal>> GetAllAsync(bool trackChanges) =>
+        public async Task<IEnumerable<Animal>> GetAllAsync(AnimalParameters animalParameters, bool trackChanges) =>
             await FindAll(trackChanges)
             .OrderBy(a => a.Name)
+            .Skip((animalParameters.PageNumber - 1) * animalParameters.PageSize)
+            .Take(animalParameters.PageSize)
             .ToListAsync();
 
         public async Task<Animal> GetAnimalAsync(Guid animalId, bool trackChanges) => 

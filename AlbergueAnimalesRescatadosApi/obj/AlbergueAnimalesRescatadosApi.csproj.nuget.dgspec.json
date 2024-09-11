@@ -120,7 +120,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Shared\\Shared.csproj": {
+                "projectPath": "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Shared\\Shared.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -255,6 +259,9 @@
             "projectReferences": {
               "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Domain\\Domain.csproj": {
                 "projectPath": "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Domain\\Domain.csproj"
+              },
+              "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Shared\\Shared.csproj": {
+                "projectPath": "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Shared\\Shared.csproj"
               }
             }
           }
@@ -471,9 +478,6 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Domain\\Domain.csproj"
-              },
               "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Services.Contracts\\Services.Contracts.csproj": {
                 "projectPath": "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Services.Contracts\\Services.Contracts.csproj"
               }
@@ -544,11 +548,7 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {
-              "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\fredd\\OneDrive - Universidad Americana Uam SRL\\Documentos\\Proyectos Asp .Net\\AlbergueAnimalesRescatadosApi\\Domain\\Domain.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {

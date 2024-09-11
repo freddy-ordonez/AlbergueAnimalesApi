@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Shared.Dto;
 using Shared.Dto.Animal;
+using Shared.RequestFeactures;
 
 namespace Services.Contracts
 {
     public interface IAnimalService
     {
-        Task<IEnumerable<AnimalDto>> GetAllAnimalAsync(bool trackChanges);
+        Task<IEnumerable<AnimalDto>> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges);
         Task<AnimalDto> GetAnimalAsync(Guid animalId, bool trackChanges);
         Task<AnimalDto> CreateAnimalAsync(AnimalForCreationDto animalDto);
 

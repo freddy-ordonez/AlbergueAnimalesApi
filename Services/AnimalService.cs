@@ -5,6 +5,7 @@ using Domain.Repositories;
 using Services.Contracts;
 using Shared.Dto;
 using Shared.Dto.Animal;
+using Shared.RequestFeactures;
 
 namespace Services
 {
@@ -41,10 +42,10 @@ namespace Services
             await _repository.SaveAsync();
         }
 
-        public async Task<IEnumerable<AnimalDto>> GetAllAnimalAsync(bool trackChanges)
+        public async Task<IEnumerable<AnimalDto>> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges)
         {
 
-            var animals = await _repository.Animal.GetAllAsync(trackChanges);
+            var animals = await _repository.Animal.GetAllAsync(animalParameters, trackChanges);
 
             var animalsDto = _mapper.Map<IEnumerable<AnimalDto>>(animals);
 

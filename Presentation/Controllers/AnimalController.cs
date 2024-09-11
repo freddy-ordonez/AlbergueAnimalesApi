@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
 using Shared.Dto.Animal;
+using Shared.RequestFeactures;
 
 namespace Presentation.Controllers
 {
@@ -17,9 +18,9 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAnimals()
+        public async Task<IActionResult> GetAnimals([FromQuery] AnimalParameters animalParameters)
         {
-            var animals = await _service.AnimalService.GetAllAnimalAsync(trackChanges: false);
+            var animals = await _service.AnimalService.GetAllAnimalAsync(animalParameters, trackChanges: false);
             return Ok(animals);
         }
 
