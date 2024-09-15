@@ -18,11 +18,17 @@ namespace Persistence.Repositories
 
         public async Task<PagedList<Animal>> GetAllAsync(AnimalParameters animalParameters, bool trackChanges)
         {
-            var animals = await FindAll(trackChanges)
-                .OrderBy(a => a.Name)
+            var animals = await FindAll(trackChanges).ToListAsync();
+
+            if(animalParameters.State.HasValue)
+            {
+                animals = animals.Where(a => a.State == animalParameters.State.Value).ToList();
+            }
+            
+            animals = animals.OrderBy(a => a.Name)
                 .Skip((animalParameters.PageNumber - 1) * animalParameters.PageSize)
                 .Take(animalParameters.PageSize)
-                .ToListAsync();
+                .ToList();
 
             var count = await FindAll(trackChanges).CountAsync();
             

@@ -45,6 +45,8 @@ namespace Services
         public async Task<(IEnumerable<AnimalDto> animalDtos, MetaData metaData)> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges)
         {
 
+            _loggerManager.LogDebug(animalParameters.State.ToString());
+
             var animalsWhithMetaData = await _repository.Animal.GetAllAsync(animalParameters, trackChanges);
 
             var animalsDto = _mapper.Map<IEnumerable<AnimalDto>>(animalsWhithMetaData);
