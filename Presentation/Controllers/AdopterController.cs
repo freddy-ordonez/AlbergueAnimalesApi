@@ -1,8 +1,10 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
 using Shared.Dto.Adopter;
+using Shared.RequestFeactures;
 
 namespace Presentation.Controllers
 {
@@ -18,11 +20,13 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAdopters()
+        public async Task<IActionResult> GetAdopters([FromQuery] AdopterParameters adopterParameters)
         {
-            var adopters = await _service.AdopterService.GetAdoptersAsync(trackChanges: false);
+            var (adopterDtos, metaData) = await _service.AdopterService.GetAdoptersAsync(adopterParameters, trackChanges: false);
 
-            return Ok(adopters);
+            Response.Headers["X-Pagination"] = JsonSerializer.Serialize(metaData);
+
+            return Ok(adopterDtos);
         }
 
         [HttpGet("{id:guid}", Name = "AdopterById")]

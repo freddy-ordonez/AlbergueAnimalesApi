@@ -4,6 +4,7 @@ using Domain.Entities.Exceptions;
 using Domain.Repositories;
 using Services.Contracts;
 using Shared.Dto.Adopter;
+using Shared.RequestFeactures;
 
 namespace Services
 {
@@ -58,13 +59,13 @@ namespace Services
             return (adopterToPatch, adopterEntity);
         }
 
-        public async Task<IEnumerable<AdopterDto>> GetAdoptersAsync(bool trackChanges)
+        public async Task<(IEnumerable<AdopterDto> adopterDtos, MetaData metaData)> GetAdoptersAsync(AdopterParameters adopterParameters, bool trackChanges)
         {
-           var adopters = await _repository.Adopter.GetAdoptersAsync(trackChanges);
+           var adopters = await _repository.Adopter.GetAdoptersAsync(adopterParameters, trackChanges);
 
            var adoptersDtos = _mapper.Map<IEnumerable<AdopterDto>>(adopters);
 
-           return adoptersDtos;
+           return (adopterDtos: adoptersDtos, metaData: adopters.MetaData);
         }
 
         public async Task SaveChangesForPatchAsync(AdopterForUpdateDto adopterToPatch, Adopter adopterEntity)
