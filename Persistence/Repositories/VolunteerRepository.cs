@@ -21,9 +21,13 @@ namespace Persistence.Repositories
 
         public async Task<PagedList<Volunteer>> FindVoluteersAsync(VolunteerParameters volunteerParameters, bool trackChanges) 
         {
-            var volunteers = await FindAll(trackChanges)
-                .OrderBy(v => v.Name)
-                .ToListAsync();
+            var volunteers = await FindAll(trackChanges).ToListAsync();
+            if(volunteerParameters.State.HasValue)
+            {
+                volunteers = [.. volunteers.Where(v => v.State == volunteerParameters.State.Value)];
+            }
+
+            volunteers = [.. volunteers.OrderBy(v => v.Name)];
             
             return PagedList<Volunteer>.ToPagedList(volunteers, volunteerParameters.PageNumber, volunteerParameters.PageSize);
         }
