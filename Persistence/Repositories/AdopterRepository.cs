@@ -22,9 +22,13 @@ namespace Persistence.Repositories
 
         public async Task<PagedList<Adopter>> GetAdoptersAsync(AdopterParameters adopterParameters, bool trackChanges) 
         {
-            var animals = await FindAll(trackChanges)
-                .OrderBy(a => a.Name)
-                .ToListAsync();
+            var animals = await FindAll(trackChanges).ToListAsync();
+            if(adopterParameters.State.HasValue)
+            {
+                animals = animals.Where(a => a.State == adopterParameters.State.Value).ToList();
+            }
+            
+            animals = [.. animals.OrderBy(a => a.Name)];
             
             return PagedList<Adopter>.ToPagedList(animals, adopterParameters.PageNumber, adopterParameters.PageSize);
         }      
