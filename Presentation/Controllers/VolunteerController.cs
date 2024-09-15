@@ -1,8 +1,10 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
 using Shared.Dto.Volunteer;
+using Shared.RequestFeactures;
 
 namespace Presentation.Controllers
 {
@@ -18,11 +20,13 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetVolunteers()
+        public async Task<IActionResult> GetVolunteers([FromQuery] VolunteerParameters volunteerParameters)
         {
-            var volunteers = await _service.VolunteerService.GetVolunteersAsync(trackChanges: false);
+            var (volunteerDtos, metaData) = await _service.VolunteerService.GetVolunteersAsync(volunteerParameters, trackChanges: false);
 
-            return Ok(volunteers);
+            Response.Headers["X-Pagination"] = JsonSerializer.Serialize(metaData);
+
+            return Ok(volunteerDtos);
         }
 
         [HttpGet("{id:guid}", Name = "VolunteerById")]

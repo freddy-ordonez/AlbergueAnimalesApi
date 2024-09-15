@@ -1,11 +1,12 @@
 ﻿using Domain.Entities;
 using Shared.Dto.Volunteer;
+using Shared.RequestFeactures;
 
 namespace Services.Contracts
 {
     public interface IVolunteerService
     {
-        Task<IEnumerable<VolunteerDto>> GetVolunteersAsync(bool trackChanges);
+        Task<(IEnumerable<VolunteerDto> volunteerDtos, MetaData metaData)> GetVolunteersAsync(VolunteerParameters volunteerParameters, bool trackChanges);
         Task<VolunteerDto> GetVolunteerAsync(Guid volunterId, bool trackChanges);
         Task<VolunteerDto> CreateVolunteerAsync(VolunteerForCreationDto volunteer);
         Task DeleteVolunteerAsync(Guid id, bool trackChanges);

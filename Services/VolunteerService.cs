@@ -4,6 +4,7 @@ using Domain.Entities.Exceptions;
 using Domain.Repositories;
 using Services.Contracts;
 using Shared.Dto.Volunteer;
+using Shared.RequestFeactures;
 
 namespace Services
 {
@@ -58,13 +59,13 @@ namespace Services
             return (volunteerToPatch, volunteerEntity);
         }
 
-        public async Task<IEnumerable<VolunteerDto>> GetVolunteersAsync(bool trackChanges)
+        public async Task<(IEnumerable<VolunteerDto> volunteerDtos, MetaData metaData)> GetVolunteersAsync(VolunteerParameters volunteerParameters, bool trackChanges)
         {
-            var volunteers = await _repository.Volunteer.FindVoluteersAsync(trackChanges);
+            var pageListVolunteer = await _repository.Volunteer.FindVoluteersAsync(volunteerParameters, trackChanges);
 
-            var volunteersDto = _mapper.Map<IEnumerable<VolunteerDto>>(volunteers);
+            var volunteersDtos = _mapper.Map<IEnumerable<VolunteerDto>>(pageListVolunteer);
 
-            return volunteersDto;
+            return (volunteersDtos, pageListVolunteer.MetaData);
         }
 
         public async Task SaveChangesForPatchAsync(VolunteerForUpdateDto volunteerToPatch, Volunteer volunterEntity)

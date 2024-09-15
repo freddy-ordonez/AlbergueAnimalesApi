@@ -1,11 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.RequestFeactures;
 
 namespace Persistence.Repositories
 {
@@ -23,8 +19,13 @@ namespace Persistence.Repositories
             await FinByCondition(v => v.Id.Equals(volunteerId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<IEnumerable<Volunteer>> FindVoluteersAsync(bool trackChanges) => 
-            await FindAll(trackChanges)
-            .ToListAsync();
+        public async Task<PagedList<Volunteer>> FindVoluteersAsync(VolunteerParameters volunteerParameters, bool trackChanges) 
+        {
+            var volunteers = await FindAll(trackChanges)
+                .OrderBy(v => v.Name)
+                .ToListAsync();
+            
+            return PagedList<Volunteer>.ToPagedList(volunteers, volunteerParameters.PageNumber, volunteerParameters.PageSize);
+        }
     }
 }
