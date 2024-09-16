@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Repositories.Extensions;
 using Shared.RequestFeactures;
 
 namespace Persistence.Repositories
@@ -18,21 +19,13 @@ namespace Persistence.Repositories
 
         public async Task<PagedList<Animal>> GetAllAsync(AnimalParameters animalParameters, bool trackChanges)
         {
-            var animals = await FindAll(trackChanges).ToListAsync();
-
-            if(animalParameters.State.HasValue)
-            {
-                animals = animals.Where(a => a.State == animalParameters.State.Value).ToList();
-            }
+            var animals = await FindAll(trackChanges)
+                .FilterAnimal(animalParameters.State)
+                .Search(animalParameters.SearchTerm)
+                .OrderBy(a => a.Name)
+                .ToListAsync();
             
-            animals = animals.OrderBy(a => a.Name)
-                .Skip((animalParameters.PageNumber - 1) * animalParameters.PageSize)
-                .Take(animalParameters.PageSize)
-                .ToList();
-
-            var count = await FindAll(trackChanges).CountAsync();
-            
-            return new PagedList<Animal>(animals, count, animalParameters.PageNumber, animalParameters.PageSize);
+            return PagedList<Animal>.ToPagedList(animals, animalParameters.PageNumber, animalParameters.PageSize);
 
         }
 
