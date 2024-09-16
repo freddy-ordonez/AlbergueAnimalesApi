@@ -22,7 +22,7 @@ namespace Persistence.Repositories
             var animals = await FindAll(trackChanges)
                 .FilterAnimal(animalParameters.State)
                 .Search(animalParameters.SearchTerm)
-                .OrderBy(a => a.Name)
+                .Sort(animalParameters.OrderBy)
                 .ToListAsync();
             
             return PagedList<Animal>.ToPagedList(animals, animalParameters.PageNumber, animalParameters.PageSize);
