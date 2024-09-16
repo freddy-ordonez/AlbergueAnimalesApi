@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Repositories.Extensions;
 using Shared.RequestFeactures;
 
 namespace Persistence.Repositories
@@ -21,13 +22,11 @@ namespace Persistence.Repositories
 
         public async Task<PagedList<Volunteer>> FindVoluteersAsync(VolunteerParameters volunteerParameters, bool trackChanges) 
         {
-            var volunteers = await FindAll(trackChanges).ToListAsync();
-            if(volunteerParameters.State.HasValue)
-            {
-                volunteers = [.. volunteers.Where(v => v.State == volunteerParameters.State.Value)];
-            }
-
-            volunteers = [.. volunteers.OrderBy(v => v.Name)];
+            var volunteers = await FindAll(trackChanges)
+                .FilterVolunteer(volunteerParameters.State)
+                .Search(volunteerParameters.SearchTerm)
+                .OrderBy(v => v.Name)
+                .ToListAsync();
             
             return PagedList<Volunteer>.ToPagedList(volunteers, volunteerParameters.PageNumber, volunteerParameters.PageSize);
         }
