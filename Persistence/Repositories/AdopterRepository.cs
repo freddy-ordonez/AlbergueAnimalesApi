@@ -1,8 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Repositories.Extensions;
 using Shared.RequestFeactures;
-using System;
 
 namespace Persistence.Repositories
 {
@@ -22,13 +22,11 @@ namespace Persistence.Repositories
 
         public async Task<PagedList<Adopter>> GetAdoptersAsync(AdopterParameters adopterParameters, bool trackChanges) 
         {
-            var animals = await FindAll(trackChanges).ToListAsync();
-            if(adopterParameters.State.HasValue)
-            {
-                animals = animals.Where(a => a.State == adopterParameters.State.Value).ToList();
-            }
-            
-            animals = [.. animals.OrderBy(a => a.Name)];
+            var animals = await FindAll(trackChanges)
+                .FilterAdopter(adopterParameters.State)
+                .Search(adopterParameters.SearchTerm)
+                .OrderBy(a => a.Name)
+                .ToListAsync();
             
             return PagedList<Adopter>.ToPagedList(animals, adopterParameters.PageNumber, adopterParameters.PageSize);
         }      
