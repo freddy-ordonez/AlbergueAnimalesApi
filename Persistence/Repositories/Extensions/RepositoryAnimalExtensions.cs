@@ -22,6 +22,7 @@ public static class RepositoryAnimalExtensions
         return animals.Where(e => e.Name.ToLower().Contains(lowerCaseTerm)); 
     }
      
+     //Utilizamos el paquete de System.Linq.Dynamic.Core para el sort
     public static IQueryable<Animal> Sort(this IQueryable<Animal> animals, string orderByQueryString)
     {
         if(string.IsNullOrWhiteSpace(orderByQueryString))
@@ -39,7 +40,6 @@ public static class RepositoryAnimalExtensions
             var propertyFromQueryName = param.Split(" ")[0];
             var objectProperty = propertyInfos.FirstOrDefault(pi => pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
 
-            Console.WriteLine(param);
             if(objectProperty is null)
                 continue;
             
@@ -51,8 +51,6 @@ public static class RepositoryAnimalExtensions
 
         if(string.IsNullOrWhiteSpace(orderQuery))
             return animals.OrderBy(a => a.Name);
-        
-        Console.WriteLine(orderQuery);
         
         return animals.OrderBy(orderQuery);
     }

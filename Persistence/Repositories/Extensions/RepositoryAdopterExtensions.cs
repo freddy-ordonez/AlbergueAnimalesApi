@@ -21,6 +21,7 @@ public static class RepositoryAdopterExtensions
         return adopters.Where(a => a.Name.ToLower().Contains(ToLowerTerm));
     }
 
+    //Utilizamos el paquete de System.Linq.Dynamic.Core para el sort
     public static IQueryable<Adopter> Sort(this IQueryable<Adopter> adopters, string orderByQueryString)
     {
         if(string.IsNullOrWhiteSpace(orderByQueryString))

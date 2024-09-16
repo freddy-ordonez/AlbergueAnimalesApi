@@ -25,7 +25,7 @@ namespace Persistence.Repositories
             var volunteers = await FindAll(trackChanges)
                 .FilterVolunteer(volunteerParameters.State)
                 .Search(volunteerParameters.SearchTerm)
-                .OrderBy(v => v.Name)
+                .Sort(volunteerParameters.OrderBy)
                 .ToListAsync();
             
             return PagedList<Volunteer>.ToPagedList(volunteers, volunteerParameters.PageNumber, volunteerParameters.PageSize);
