@@ -25,7 +25,7 @@ namespace Presentation.Controllers
 
             Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pageResult.metaData);
             
-            return Ok(pageResult.animalDtos);
+            return Ok(pageResult.animals);
         }
 
         [HttpGet("{id:guid}", Name = "AnimalById")]

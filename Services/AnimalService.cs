@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Dynamic;
+using AutoMapper;
 using Domain.Entities;
 using Domain.Entities.Exceptions;
 using Domain.Repositories;
@@ -14,12 +15,14 @@ namespace Services
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _loggerManager;
         private readonly IMapper _mapper;
+        private readonly IDataShaper<AnimalDto> _dataShaper;
 
-        public AnimalService(IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper)
+        public AnimalService(IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper, IDataShaper<AnimalDto> dataShaper)
         {
             _repository = repositoryManager;
             _loggerManager = loggerManager;
             _mapper = mapper;
+            _dataShaper = dataShaper;
         }
 
         public async Task<AnimalDto> CreateAnimalAsync(AnimalForCreationDto animalDto)
@@ -42,14 +45,15 @@ namespace Services
             await _repository.SaveAsync();
         }
 
-        public async Task<(IEnumerable<AnimalDto> animalDtos, MetaData metaData)> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges)
+        public async Task<(IEnumerable<ExpandoObject> animals, MetaData metaData)> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges)
         {
 
             var animalsWhithMetaData = await _repository.Animal.GetAllAsync(animalParameters, trackChanges);
 
             var animalsDto = _mapper.Map<IEnumerable<AnimalDto>>(animalsWhithMetaData);
+            var shapedData = _dataShaper.ShapeData(animalsDto, animalParameters.Fields);
 
-            return (animalDtos: animalsDto, metaData: animalsWhithMetaData.MetaData);
+            return (animals: shapedData, metaData: animalsWhithMetaData.MetaData);
         }
 
         public async Task<AnimalDto> GetAnimalAsync(Guid animalId, bool trackChanges)

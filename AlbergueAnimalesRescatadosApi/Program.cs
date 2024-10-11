@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 using AlbergueAnimalesRescatadosApi.Extensions;
+using Domain.Entities;
+using Domain.Repositories;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -7,6 +9,8 @@ using Microsoft.Extensions.Options;
 using NLog;
 using Presentation.ActionFilters;
 using Services.Contracts;
+using Services.DataShaping;
+using Shared.Dto;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +38,7 @@ builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.AddScoped<IDataShaper<AnimalDto>, DataShaper<AnimalDto>>();
 
 var app = builder.Build();
 

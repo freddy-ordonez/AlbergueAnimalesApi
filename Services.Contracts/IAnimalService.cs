@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using System.Dynamic;
+using Domain.Entities;
 using Shared.Dto;
 using Shared.Dto.Animal;
 using Shared.RequestFeactures;
@@ -7,7 +8,7 @@ namespace Services.Contracts
 {
     public interface IAnimalService
     {
-        Task<(IEnumerable<AnimalDto> animalDtos, MetaData metaData)> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges);
+        Task<(IEnumerable<ExpandoObject> animals, MetaData metaData)> GetAllAnimalAsync(AnimalParameters animalParameters, bool trackChanges);
         Task<AnimalDto> GetAnimalAsync(Guid animalId, bool trackChanges);
         Task<AnimalDto> CreateAnimalAsync(AnimalForCreationDto animalDto);
 
